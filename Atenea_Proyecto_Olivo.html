@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atenea Digital · Proyecto Estancia del Olivo</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #FBFAF7;
+  --bg-secondary: #F2F2F0;
+  --bg-tertiary: #E8E8E6;
+  --bg-card: #FFFFFF;
+  --bg-grouped: #F2F2F0;
+
+  --text-primary: #1D1D1F;
+  --text-secondary: #3A3A3C;
+  --text-tertiary: #636366;
+  --text-quaternary: #8E8E93;
+
+  --separator: rgba(60, 60, 67, 0.18);
+
+  --color-egida: #A93226;
+  --color-egida-fill: #FBEDEC;
+  --color-mochuelo: #5F8A6B;
+  --color-mochuelo-fill: #EDF3EF;
+  --color-atenea: #3B5C8F;
+  --color-atenea-fill: #ECF1F7;
+  --color-olivo: #6B8E23;
+  --color-olivo-fill: #F2F5E8;
+
+  --color-success: #30A14E;
+  --color-warning: #D97706;
+  --color-danger: #DC2626;
+  --color-info: #2563EB;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 0 0 0.5px var(--separator), 0 1px 2px rgba(0,0,0,0.03);
+
+  --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1C1C1E;
+    --bg-secondary: #2C2C2E;
+    --bg-tertiary: #3A3A3C;
+    --bg-card: #2C2C2E;
+    --bg-grouped: #000000;
+
+    --text-primary: #F5F5F7;
+    --text-secondary: #EBEBF5;
+    --text-tertiary: #98989F;
+    --text-quaternary: #6C6C70;
+
+    --separator: rgba(84, 84, 88, 0.65);
+
+    --color-egida: #FF6961;
+    --color-egida-fill: #2B1A1A;
+    --color-mochuelo: #8FBC9C;
+    --color-mochuelo-fill: #1F2A22;
+    --color-atenea: #6FA8DC;
+    --color-atenea-fill: #1A2533;
+    --color-olivo: #B8C97A;
+    --color-olivo-fill: #1F2914;
+
+    --color-success: #30D158;
+    --color-warning: #FF9500;
+    --color-danger: #FF453A;
+    --color-info: #0A84FF;
+  }
+}
+
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============== HEADER ============== */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(251, 250, 247, 0.85);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--separator);
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-header { background: rgba(28, 28, 30, 0.85); }
+}
+
+.app-header-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 18px 24px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-title p {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.app-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.app-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s var(--ease-out);
+}
+
+.icon-button:hover { background: var(--bg-tertiary); }
+.icon-button:active { transform: scale(0.96); }
+.icon-button svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+
+/* ============== MAIN ============== */
+
+main {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px;
+  padding-bottom: 100px;
+}
+
+/* ============== PROJECT CARD ============== */
+
+.project-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-olivo) 0%, var(--color-mochuelo) 50%, var(--color-atenea) 100%);
+}
+
+.project-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-olivo);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.project-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-olivo);
+}
+
+.project-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.project-subtitle {
+  font-size: 17px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.project-description {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.project-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.pillar {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.pillar-number {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-olivo);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.pillar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.pillar-detail {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.45;
+}
+
+/* ============== SEGMENTED CONTROL ============== */
+
+.segmented {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  display: flex;
+  gap: 0;
+  position: relative;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.segmented::-webkit-scrollbar { display: none; }
+
+.segment {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.segment-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.segment.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============== STATUS BANNER ============== */
+
+.status-banner {
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.status-urgent {
+  background: rgba(220, 38, 38, 0.08);
+  border: 0.5px solid rgba(220, 38, 38, 0.3);
+}
+
+.status-open {
+  background: var(--color-mochuelo-fill);
+  border: 0.5px solid rgba(95, 138, 107, 0.3);
+}
+
+.status-upcoming {
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--separator);
+}
+
+.status-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 22px;
+}
+
+.status-urgent .status-icon { background: rgba(220, 38, 38, 0.15); color: var(--color-danger); }
+.status-open .status-icon { background: rgba(95, 138, 107, 0.18); color: var(--color-mochuelo); }
+.status-upcoming .status-icon { background: var(--bg-tertiary); color: var(--text-tertiary); }
+
+.status-content { flex: 1; }
+.status-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.status-urgent .status-label { color: var(--color-danger); }
+.status-open .status-label { color: var(--color-mochuelo); }
+.status-upcoming .status-label { color: var(--text-tertiary); }
+
+.status-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.status-detail {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.status-countdown {
+  text-align: right;
+  flex-shrink: 0;
+}
+.status-countdown .days {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.status-urgent .status-countdown .days { color: var(--color-danger); }
+.status-countdown .label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* ============== METRIC GRID ============== */
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.metric {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.metric-detail {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+/* Stars */
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 16px;
+  letter-spacing: -1px;
+}
+.stars .filled { color: #F5A623; }
+.stars .empty { color: var(--bg-tertiary); }
+
+/* ============== SECTION ============== */
+
+.section {
+  margin-bottom: 28px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  padding: 0 6px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.section-stats {
+  font-size: 12px;
+  color: var(--text-quaternary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============== CHECKLIST ============== */
+
+.checklist {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s var(--ease-out);
+}
+
+.checklist-item:hover { background: var(--bg-secondary); }
+
+.checklist-item::after {
+  content: '';
+  position: absolute;
+  left: 50px;
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+
+.checklist-item:last-child::after { display: none; }
+
+.check-circle {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-quaternary);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--ease-out);
+  margin-top: 1px;
+}
+
+.check-circle:hover { border-color: var(--text-tertiary); transform: scale(1.05); }
+
+.checklist-item.done .check-circle {
+  background: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.check-circle svg {
+  width: 12px;
+  height: 12px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.2s var(--ease-out);
+}
+
+.checklist-item.done .check-circle svg { opacity: 1; transform: scale(1); }
+
+.check-content { flex: 1; min-width: 0; }
+
+.check-title {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.check-hint {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.checklist-item.done .check-title {
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-quaternary);
+  text-decoration-thickness: 1px;
+}
+
+/* ============== TIMELINE ============== */
+
+.timeline {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 8px 0;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px 18px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s var(--ease-out);
+}
+
+.timeline-item:hover { background: var(--bg-secondary); }
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  left: 50px;
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+
+.timeline-item:last-child::after { display: none; }
+
+.timeline-day {
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  padding-top: 2px;
+}
+
+.timeline-day .num {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-content { flex: 1; }
+
+.timeline-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.timeline-detail {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.45;
+}
+
+.timeline-item.done .timeline-title {
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+}
+
+/* ============== NOTES ============== */
+
+.notes-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 16px 20px;
+}
+
+.notes-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--separator);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.notes-textarea:focus {
+  outline: none;
+  border-color: var(--text-tertiary);
+  background: var(--bg-card);
+}
+
+/* ============== RECOMMENDATION ============== */
+
+.recommendation {
+  background: linear-gradient(135deg, var(--color-egida-fill) 0%, var(--color-olivo-fill) 100%);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-top: 32px;
+  border: 0.5px solid var(--separator);
+}
+
+@media (prefers-color-scheme: dark) {
+  .recommendation {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  }
+}
+
+.rec-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-egida);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.rec-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.rec-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.rec-text strong { color: var(--text-primary); font-weight: 600; }
+
+/* ============== TOAST ============== */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 10px 18px;
+  border-radius: 22px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: all 0.3s var(--ease-out);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============== RESPONSIVE ============== */
+
+@media (max-width: 700px) {
+  .app-header-inner { padding: 14px 16px; }
+  .app-title h1 { font-size: 20px; }
+  main { padding: 16px; }
+  .project-card { padding: 20px 22px; }
+  .project-title { font-size: 22px; }
+  .status-banner { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .status-countdown { text-align: left; }
+  .recommendation { padding: 20px 22px; }
+}
+
+/* ============== PRINT ============== */
+
+@media print {
+  .app-header, .icon-button, .toast, .segmented { display: none !important; }
+  body { background: white; color: black; }
+  .project-card, .checklist, .timeline, .notes-card, .metric { box-shadow: none; border: 0.5px solid #ccc; }
+  .convocatoria { display: block !important; page-break-before: always; }
+  .convocatoria:first-child { page-break-before: avoid; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="app-title">
+      <p>Atenea Digital · Proyecto</p>
+      <h1>Estancia del Olivo</h1>
+    </div>
+    <div class="app-actions">
+      <button class="icon-button" id="btn-print" title="Imprimir">
+        <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+      </button>
+      <button class="icon-button" id="btn-export" title="Exportar JSON">
+        <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </button>
+      <button class="icon-button" id="btn-reset" title="Restablecer">
+        <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- DESCRIPCIÓN DEL PROYECTO -->
+  <article class="project-card">
+    <div class="project-eyebrow">
+      <span class="project-eyebrow-dot"></span>
+      Mochuelos · Estancia del Olivo
+    </div>
+    <h2 class="project-title">Mochuelos como mediadores e innovadores</h2>
+    <p class="project-subtitle">Cuando el que fue acogido pasa a acoger</p>
+
+    <p class="project-description">
+      Un programa para que los jóvenes con altas capacidades de Salamanca, entre 16 y 18 años, se conviertan en <strong>mentores junior</strong> de los pequeños de la asociación. Articulan talleres de sensibilización sobre las altas capacidades en colegios e institutos, y desarrollan herramientas tecnológicas <em>open-source</em> para la innovación social educativa. La aplicación Mochuelos —plataforma digital de Atenea— sirve de infraestructura del proyecto: en ella publican sus retos, sus textos, sus desarrollos, y desde ella coordinan la acción comunitaria.
+    </p>
+
+    <div class="project-pillars">
+      <div class="pillar">
+        <div class="pillar-number">EJE 01</div>
+        <div class="pillar-title">Mentoría junior</div>
+        <div class="pillar-detail">Mochuelos mayores tutorizan a los pequeños en talleres cognitivos y de creación.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">EJE 02</div>
+        <div class="pillar-title">Sensibilización escolar</div>
+        <div class="pillar-detail">Visitas a centros educativos de Salamanca para hablar de las altas capacidades en primera persona.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">EJE 03</div>
+        <div class="pillar-title">Desarrollo tecnológico</div>
+        <div class="pillar-detail">Construcción de herramientas open-source —retos, recursos pedagógicos, módulos de la app— bajo coordinación de Diego.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">EJE 04</div>
+        <div class="pillar-title">Articulación</div>
+        <div class="pillar-detail">La app Mochuelos vertebra el proyecto: foro, biblioteca, calendario, repositorio público.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- SELECTOR DE CONVOCATORIA -->
+  <div class="segmented" id="segmented">
+    <button class="segment active" data-conv="caixa">
+      <span class="segment-dot" style="background: var(--color-danger);"></span>
+      La Caixa CyL 2026
+    </button>
+    <button class="segment" data-conv="erasmus">
+      <span class="segment-dot" style="background: var(--color-info);"></span>
+      Erasmus+ KA210
+    </button>
+    <button class="segment" data-conv="juveniles">
+      <span class="segment-dot" style="background: var(--text-tertiary);"></span>
+      Proyectos Juveniles Aytº
+    </button>
+  </div>
+
+  <!-- VISTA DE LA CONVOCATORIA SELECCIONADA -->
+  <div id="convocatoria-view"></div>
+
+  <!-- RECOMENDACIÓN FINAL -->
+  <div class="recommendation">
+    <div class="rec-label">Recomendación operativa</div>
+    <h3 class="rec-title">Ir a por La Caixa CyL 2026 ya, esta misma semana</h3>
+    <p class="rec-text">
+      De las tres convocatorias, <strong>solo La Caixa está abierta</strong> y su cierre el <strong>11 de junio</strong> deja 28 días naturales para preparar la solicitud. La cuantía (hasta 50.000&nbsp;€) y el encaje semántico con el proyecto son ambos del más alto nivel. Erasmus+ KA210 ofrece más cuantía y mejor encaje técnico, pero su apertura es en octubre y exige identificar previamente un socio europeo —tarea que conviene empezar en paralelo, no como alternativa—. El Concurso de Proyectos Juveniles del Ayuntamiento es semánticamente perfecto pero su cuantía es modesta y su próxima edición se publica en otoño; merece la pena reservar para el año siguiente, una vez La Caixa esté presentada. <strong>La estrategia óptima: La Caixa primero, Erasmus+ en paralelo durante el verano, Juveniles en otoño.</strong>
+    </p>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =========================================================
+// DATOS DE LAS TRES CONVOCATORIAS
+// =========================================================
+
+const TODAY = new Date('2026-05-14');
+
+function daysUntil(dateStr) {
+  const d = new Date(dateStr);
+  return Math.ceil((d - TODAY) / (1000 * 60 * 60 * 24));
+}
+
+function formatES(dateStr) {
+  return new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(dateStr));
+}
+
+const CONVOCATORIAS = {
+  caixa: {
+    title: 'Convocatoria Proyectos Sociales La Caixa Castilla y León 2026',
+    organism: 'Fundación «la Caixa»',
+    status: 'urgent',
+    statusLabel: 'Abierta · cierre inminente',
+    closeDate: '2026-06-11',
+    encaje: 5,
+    encajeText: 'Encaje excelente: la línea de promoción del éxito educativo y atención a la infancia en vulnerabilidad social cubre exactamente lo que el proyecto Estancia del Olivo plantea.',
+    amount: 'Hasta 50.000 €',
+    amountDetail: 'Promedio histórico aprobado: 25.000 €',
+    duration: '12 a 24 meses',
+    successRate: '~20% históricamente',
+    elegibles: 'Personal técnico, materiales, comunicación, evaluación externa, gastos de gestión (máx. 10%)',
+    requirements: [
+      { id: 'r1', title: 'Entidad sin ánimo de lucro con personalidad jurídica propia', hint: 'Atenea lo cumple desde su constitución en 2015.' },
+      { id: 'r2', title: 'Inscripción en registro administrativo con al menos 2 años de antigüedad', hint: 'Registro Municipal de Salamanca como Asociación de Salud y Ayuda Mutua. Cumple.' },
+      { id: 'r3', title: 'Sede o ámbito territorial de actuación en Castilla y León', hint: 'Salamanca capital, ámbito provincial. Cumple.' },
+      { id: 'r4', title: 'Cuentas anuales 2024 y 2025 aprobadas en asamblea y depositadas', hint: 'Verificar acta de aprobación y certificado de depósito.' },
+      { id: 'r5', title: 'Estar al corriente de obligaciones tributarias (AEAT)', hint: 'Certificado descargable desde sede.agenciatributaria.gob.es' },
+      { id: 'r6', title: 'Estar al corriente con la Seguridad Social (TGSS)', hint: 'Certificado desde sede.seg-social.gob.es' },
+      { id: 'r7', title: 'No haber sido beneficiario de 2 ayudas La Caixa en el ejercicio', hint: 'Atenea no ha recibido ninguna ayuda La Caixa anterior. Cumple.' },
+      { id: 'r8', title: 'Proyecto innovador con impacto medible y población beneficiaria definida', hint: 'Estancia del Olivo cubre los tres criterios.' }
+    ],
+    documents: [
+      { id: 'd1', title: 'Memoria descriptiva del proyecto (formato ficha la Caixa)', hint: 'Plantilla descargable en convocatorias.caixa.es. Extensión máxima 25 páginas.' },
+      { id: 'd2', title: 'Presupuesto detallado con justificación por partidas', hint: 'Modelo Excel facilitado en la convocatoria.' },
+      { id: 'd3', title: 'Tarjeta CIF de la entidad', hint: 'Copia de la tarjeta de identificación fiscal.' },
+      { id: 'd4', title: 'Estatutos vigentes de la asociación', hint: 'Versión actualizada con todas las modificaciones registrales.' },
+      { id: 'd5', title: 'Acta de nombramiento del representante legal', hint: 'Acta de la asamblea que designó a Pilar Jiménez Sánchez como presidenta.' },
+      { id: 'd6', title: 'Certificado AEAT de hallarse al corriente', hint: 'Validez: 6 meses desde emisión.' },
+      { id: 'd7', title: 'Certificado TGSS de hallarse al corriente', hint: 'Validez: 6 meses desde emisión.' },
+      { id: 'd8', title: 'Cuentas anuales 2024 y 2025', hint: 'Balance, cuenta de resultados y memoria económica.' },
+      { id: 'd9', title: 'CV de Diego Elvira como coordinador técnico', hint: 'Mención al premio Hack4Edu 2026 y a la afiliación UPSA.' },
+      { id: 'd10', title: 'Cartas de apoyo institucional', hint: 'UPSA, Ayuntamiento de Salamanca, dos centros educativos colaboradores.' },
+      { id: 'd11', title: 'Declaración responsable de otras subvenciones solicitadas', hint: 'Modelo facilitado por La Caixa.' }
+    ],
+    timeline: [
+      { id: 't1', day: '1-3', title: 'Convocar Junta Directiva extraordinaria', detail: 'Aprobar formalmente la presentación y designar a un responsable interno del expediente.' },
+      { id: 't2', day: '4-7', title: 'Redactar memoria descriptiva del proyecto', detail: 'Estructura: contexto, justificación, objetivos, actividades, indicadores, equipo, presupuesto resumen, evaluación.' },
+      { id: 't3', day: '8-12', title: 'Construir presupuesto detallado', detail: 'Partidas: personal técnico (Diego + mentores), materiales, comunicación, evaluación externa, gestión (máx 10%). Total ~25k-50k €.' },
+      { id: 't4', day: '13-15', title: 'Recopilar documentación administrativa', detail: 'CIF, estatutos, actas, cuentas, certificados AEAT y TGSS. Estos certificados tardan 24-48h; pedirlos pronto.' },
+      { id: 't5', day: '16-20', title: 'Obtener cartas de apoyo institucional', detail: 'UPSA (vía Diego), Ayuntamiento (vía Concejalía de Educación), dos centros educativos de la red de Atenea.' },
+      { id: 't6', day: '21-23', title: 'Revisión externa y refinamiento', detail: 'Lectura crítica del paquete completo por una persona ajena al equipo redactor.' },
+      { id: 't7', day: '24-27', title: 'Subida al portal de la Caixa', detail: 'Plataforma convocatorias.caixa.es. Subir todo con 4 días de margen sobre el cierre.' },
+      { id: 't8', day: '28', title: 'CIERRE: 11 de junio de 2026 (23:59)', detail: 'Margen de seguridad mínimo: 24h. No dejar para el último día.' }
+    ]
+  },
+  erasmus: {
+    title: 'Erasmus+ KA210 — Asociaciones a Pequeña Escala',
+    organism: 'SEPIE (Servicio Español para la Internacionalización de la Educación)',
+    status: 'upcoming',
+    statusLabel: 'Próxima · ronda 2 de 2026',
+    closeDate: '2026-10-01',
+    encaje: 4,
+    encajeText: 'Encaje técnico excelente para el componente de desarrollo tecnológico open-source y la dimensión de innovación social educativa. La pega: exige al menos un socio de otro país europeo, que hay que identificar y comprometer antes de septiembre.',
+    amount: '30.000 € o 60.000 € (lump sum)',
+    amountDetail: 'Modalidad fija a tanto alzado, sin justificación por partidas',
+    duration: '6 a 24 meses',
+    successRate: '~30-40% según convocatoria',
+    elegibles: 'Personal, viajes para encuentros transnacionales, equipamiento tecnológico, productos intelectuales, diseminación',
+    requirements: [
+      { id: 'r1', title: 'Entidad legalmente constituida con domicilio en país del programa', hint: 'España es país del programa. Cumple.' },
+      { id: 'r2', title: 'Al menos un socio de otro país miembro del programa', hint: 'CRÍTICO. Identificar antes de septiembre 2026. Candidatos: asociaciones AACC de Italia (AISTAP), Portugal (ANEIS), Alemania (Hochbegabung).' },
+      { id: 'r3', title: 'Registro previo en plataforma de la Comisión (OID)', hint: 'Cada socio debe registrarse y obtener su Organisation ID (gratuito y permanente).' },
+      { id: 'r4', title: 'Plan de actividades estructurado en 6-24 meses', hint: 'Incluir cronograma con hitos transnacionales claros.' },
+      { id: 'r5', title: 'Alineación con prioridades de la convocatoria', hint: 'Inclusión, transformación digital, participación juvenil. Estancia del Olivo encaja en las tres.' },
+      { id: 'r6', title: 'Capacidad administrativa demostrada', hint: 'Atenea acredita 11 años de gestión + asesoría jurídica externa + Diego como responsable técnico.' }
+    ],
+    documents: [
+      { id: 'd1', title: 'Registro OID de Atenea', hint: 'Trámite online de 30 minutos en webgate.ec.europa.eu/erasmus-esc/' },
+      { id: 'd2', title: 'Registro OID del socio europeo', hint: 'Cada socio gestiona su propio OID.' },
+      { id: 'd3', title: 'Mandato firmado del socio europeo', hint: 'Documento estándar de SEPIE. Firma electrónica admitida.' },
+      { id: 'd4', title: 'Plan de trabajo detallado por meses', hint: 'Estructura: paquetes de trabajo, productos intelectuales, eventos transnacionales.' },
+      { id: 'd5', title: 'Cronograma de actividades (Gantt)', hint: 'Formato libre; pdf de una página suele bastar.' },
+      { id: 'd6', title: 'Presupuesto por lump sum (30k o 60k €)', hint: 'No requiere desglose por partidas, solo justificación del nivel solicitado.' },
+      { id: 'd7', title: 'Cartas de apoyo de centros educativos europeos', hint: 'Al menos uno en España y uno en el país del socio.' },
+      { id: 'd8', title: 'CVs del equipo de gestión y técnico', hint: 'Diego como responsable técnico; Pilar como representante legal; coordinador europeo del socio.' }
+    ],
+    timeline: [
+      { id: 't1', day: 'jun', title: 'Investigación de socios potenciales', detail: 'Asociaciones AACC en Italia, Portugal, Alemania, Francia. Plataforma EPALE para conexiones europeas.' },
+      { id: 't2', day: 'jul', title: 'Contacto inicial con 3-5 candidatos', detail: 'Email institucional desde Atenea presentando el proyecto y proponiendo socio.' },
+      { id: 't3', day: 'ago', title: 'Reunión virtual con candidatos serios', detail: 'Acordar visión común. Vacaciones europeas: contar con menos disponibilidad de respuesta.' },
+      { id: 't4', day: 'sep', title: 'Firma de mandato con socio elegido', detail: 'Documento legal que faculta a Atenea como coordinadora. Plantilla SEPIE.' },
+      { id: 't5', day: 'sep', title: 'Registro OID en plataforma de la Comisión', detail: 'Atenea + socio. Trámite online sencillo.' },
+      { id: 't6', day: 'sep', title: 'Redacción del proyecto completo', detail: 'Formulario en línea de SEPIE; permite guardar borrador y volver.' },
+      { id: 't7', day: 'oct', title: 'Presentación en plataforma SEPIE', detail: 'Cierre previsto primer semana de octubre (verificar fecha exacta de la convocatoria 2026).' },
+      { id: 't8', day: 'feb-27', title: 'Resolución provisional', detail: 'Comunicación de SEPIE con lista de seleccionados.' }
+    ]
+  },
+  juveniles: {
+    title: 'XVII Concurso de Proyectos Juveniles del Ayuntamiento de Salamanca',
+    organism: 'Ayuntamiento de Salamanca · Espacio Joven',
+    status: 'upcoming',
+    statusLabel: 'Próxima · bases en otoño 2026',
+    closeDate: '2027-01-31',
+    encaje: 5,
+    encajeText: 'Encaje semántico perfecto: las bases recogen explícitamente la innovación social, el voluntariado y los proyectos liderados por jóvenes menores de 35 años. La pega es la cuantía modesta, pero da visibilidad local y resultados rápidos.',
+    amount: '1.000 € a 5.000 € por proyecto',
+    amountDetail: 'Cuantía modesta, ideal para piloto de proyecto',
+    duration: '12 meses (año natural)',
+    successRate: '~40-60% (poca competencia)',
+    elegibles: 'Materiales, comunicación, alquiler de espacios, pequeño equipamiento',
+    requirements: [
+      { id: 'r1', title: 'Liderazgo del proyecto por jóvenes menores de 35 años', hint: 'Diego (32) cumple. Mochuelos mayores de 18 también. Pilar coordina pero no lidera el proyecto.' },
+      { id: 'r2', title: 'Entidad o grupo informal de jóvenes', hint: 'Atenea cumple por la condición juvenil del equipo ejecutor.' },
+      { id: 'r3', title: 'Vinculación territorial con Salamanca capital', hint: 'Domicilio Casa de las Asociaciones. Cumple.' },
+      { id: 'r4', title: 'Proyecto ejecutable en el año natural', hint: 'Cronograma enero-diciembre 2027 viable para piloto de Estancia del Olivo.' },
+      { id: 'r5', title: 'Innovación social, voluntariado, cultura o participación', hint: 'Estancia del Olivo cubre innovación social y participación juvenil.' }
+    ],
+    documents: [
+      { id: 'd1', title: 'Memoria del proyecto (modelo Aytº Salamanca)', hint: 'Plantilla en aytosalamanca.gob.es/es/juventud/. Extensión 10-15 páginas.' },
+      { id: 'd2', title: 'Presupuesto del proyecto', hint: 'Hoja simple con partidas. Cuantía solicitada y cofinanciación si la hay.' },
+      { id: 'd3', title: 'DNI del representante joven del proyecto', hint: 'Persona física menor de 35 años que asume la coordinación.' },
+      { id: 'd4', title: 'Datos bancarios de la entidad', hint: 'Cuenta a nombre de Atenea para el ingreso de la subvención.' },
+      { id: 'd5', title: 'Declaración responsable de la entidad', hint: 'Modelo facilitado por el Ayuntamiento.' },
+      { id: 'd6', title: 'Acreditación de inscripción en registro municipal', hint: 'Certificado actualizado. Atenea ya está inscrita.' }
+    ],
+    timeline: [
+      { id: 't1', day: 'sep', title: 'Vigilar publicación de bases en BOP Salamanca', detail: 'Bases publicadas habitualmente en septiembre-octubre del año anterior.' },
+      { id: 't2', day: 'oct', title: 'Adaptar memoria del proyecto al modelo Aytº', detail: 'Reaprovechar la memoria de La Caixa, ajustada a 10-15 páginas.' },
+      { id: 't3', day: 'nov', title: 'Identificar representante joven del proyecto', detail: 'Diego como coordinador principal. Posiblemente un mochuelo mayor como representante simbólico.' },
+      { id: 't4', day: 'dic', title: 'Recopilar documentación administrativa', detail: 'Documentos ya disponibles si se presentó La Caixa.' },
+      { id: 't5', day: 'ene', title: 'Presentar en registro municipal', detail: 'Tanto en papel (Casa Consistorial) como por sede electrónica.' },
+      { id: 't6', day: 'mar-may', title: 'Resolución', detail: 'Comunicación por correo electrónico del Espacio Joven.' },
+      { id: 't7', day: 'ene-dic-27', title: 'Ejecución del proyecto', detail: 'Año natural completo. Justificación final antes del 31 de enero de 2028.' }
+    ]
+  }
+};
+
+// =========================================================
+// ESTADO Y PERSISTENCIA
+// =========================================================
+
+const STORAGE_KEY = 'atenea_proyecto_olivo_v1';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return { active: 'caixa', checks: {}, notes: {} };
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    showToast('Guardado');
+  } catch (e) {
+    showToast('Error al guardar');
+  }
+}
+
+let state = loadState();
+let toastTimer;
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+}
+
+// =========================================================
+// RENDER
+// =========================================================
+
+function renderStars(n) {
+  let html = '<span class="stars">';
+  for (let i = 0; i < 5; i++) {
+    html += i < n ? '<span class="filled">★</span>' : '<span class="empty">★</span>';
+  }
+  html += '</span>';
+  return html;
+}
+
+function renderConvocatoria(key) {
+  const c = CONVOCATORIAS[key];
+  const days = daysUntil(c.closeDate);
+  const view = document.getElementById('convocatoria-view');
+
+  const statusClass = c.status === 'urgent' ? 'status-urgent' : (c.status === 'open' ? 'status-open' : 'status-upcoming');
+  const statusIcon = c.status === 'urgent' ? '!' : (c.status === 'open' ? '✓' : '◷');
+
+  const reqDone = c.requirements.filter(r => state.checks[`${key}-${r.id}`]).length;
+  const docDone = c.documents.filter(d => state.checks[`${key}-${d.id}`]).length;
+  const tlDone = c.timeline.filter(t => state.checks[`${key}-${t.id}`]).length;
+
+  let html = `
+    <div class="status-banner ${statusClass}">
+      <div class="status-icon">${statusIcon}</div>
+      <div class="status-content">
+        <div class="status-label">${c.statusLabel}</div>
+        <div class="status-title">${c.title}</div>
+        <div class="status-detail">${c.organism} · cierre el ${formatES(c.closeDate)}</div>
+      </div>
+      <div class="status-countdown">
+        <div class="days">${days > 0 ? days : '—'}</div>
+        <div class="label">días restantes</div>
+      </div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="metric-label">Cuantía</div>
+        <div class="metric-value">${c.amount}</div>
+        <div class="metric-detail">${c.amountDetail}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Duración</div>
+        <div class="metric-value">${c.duration}</div>
+        <div class="metric-detail">Ejecución del proyecto</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Tasa éxito</div>
+        <div class="metric-value">${c.successRate}</div>
+        <div class="metric-detail">Estimación histórica</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Encaje con el proyecto</div>
+        <div class="metric-value">${renderStars(c.encaje)}</div>
+        <div class="metric-detail">${c.encaje}/5</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Encaje y gastos elegibles</span>
+      </div>
+      <div class="notes-card" style="background: var(--bg-card); padding: 18px 22px;">
+        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">${c.encajeText}</p>
+        <p style="font-size: 12px; color: var(--text-tertiary);"><strong style="color: var(--text-secondary);">Gastos elegibles:</strong> ${c.elegibles}</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Requisitos</span>
+        <span class="section-stats">${reqDone} / ${c.requirements.length}</span>
+      </div>
+      <div class="checklist">
+        ${c.requirements.map(r => {
+          const checked = state.checks[`${key}-${r.id}`];
+          return `
+            <div class="checklist-item ${checked ? 'done' : ''}" data-key="${key}-${r.id}">
+              <button class="check-circle" aria-label="Marcar requisito">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+              <div class="check-content">
+                <div class="check-title">${escapeHtml(r.title)}</div>
+                ${r.hint ? `<div class="check-hint">${escapeHtml(r.hint)}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Documentación necesaria</span>
+        <span class="section-stats">${docDone} / ${c.documents.length}</span>
+      </div>
+      <div class="checklist">
+        ${c.documents.map(d => {
+          const checked = state.checks[`${key}-${d.id}`];
+          return `
+            <div class="checklist-item ${checked ? 'done' : ''}" data-key="${key}-${d.id}">
+              <button class="check-circle" aria-label="Marcar documento">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+              <div class="check-content">
+                <div class="check-title">${escapeHtml(d.title)}</div>
+                ${d.hint ? `<div class="check-hint">${escapeHtml(d.hint)}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Hoja de ruta cronológica</span>
+        <span class="section-stats">${tlDone} / ${c.timeline.length}</span>
+      </div>
+      <div class="timeline">
+        ${c.timeline.map(t => {
+          const checked = state.checks[`${key}-${t.id}`];
+          return `
+            <div class="timeline-item ${checked ? 'done' : ''}" data-key="${key}-${t.id}">
+              <div class="timeline-day">
+                <span class="num">${t.day}</span>
+                ${c.status === 'urgent' ? 'día' : 'fase'}
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-title">${escapeHtml(t.title)}</div>
+                <div class="timeline-detail">${escapeHtml(t.detail)}</div>
+              </div>
+              <button class="check-circle" aria-label="Marcar fase">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Notas</span>
+      </div>
+      <div class="notes-card">
+        <div class="notes-label">Decisiones, contactos, enlaces, dudas</div>
+        <textarea class="notes-textarea" data-notes-key="${key}" placeholder="Anota aquí: con quién has hablado, qué está pendiente, qué fechas concretas habéis acordado, qué necesita aprobación de Pilar…">${escapeHtml(state.notes[key] || '')}</textarea>
+      </div>
+    </div>
+  `;
+
+  view.innerHTML = html;
+  wireEvents();
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function wireEvents() {
+  document.querySelectorAll('.checklist-item, .timeline-item').forEach(el => {
+    el.addEventListener('click', e => {
+      if (e.target.tagName === 'TEXTAREA') return;
+      const key = el.dataset.key;
+      if (!key) return;
+      state.checks[key] = !state.checks[key];
+      saveState();
+      render();
+    });
+  });
+
+  document.querySelectorAll('.notes-textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      const k = el.dataset.notesKey;
+      state.notes[k] = el.value;
+      clearTimeout(window._notesTimer);
+      window._notesTimer = setTimeout(saveState, 600);
+    });
+    el.addEventListener('click', e => e.stopPropagation());
+  });
+}
+
+function setupSegmented() {
+  document.querySelectorAll('.segment').forEach(seg => {
+    seg.addEventListener('click', () => {
+      state.active = seg.dataset.conv;
+      saveState();
+      render();
+    });
+  });
+}
+
+function render() {
+  document.querySelectorAll('.segment').forEach(s => {
+    s.classList.toggle('active', s.dataset.conv === state.active);
+  });
+  renderConvocatoria(state.active);
+}
+
+// =========================================================
+// ACCIONES GLOBALES
+// =========================================================
+
+document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+document.getElementById('btn-export').addEventListener('click', () => {
+  const json = JSON.stringify(state, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'atenea-proyecto-olivo-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Exportado');
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+  if (confirm('Esto restablecerá el seguimiento a estado inicial. Se perderán tus notas y checks. ¿Continuar?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    state = loadState();
+    render();
+    showToast('Restablecido');
+  }
+});
+
+// =========================================================
+// INICIO
+// =========================================================
+
+setupSegmented();
+render();
+</script>
+</body>
+</html>

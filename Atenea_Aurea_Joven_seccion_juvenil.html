@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Áurea Joven — La sección juvenil de Atenea</title>
+<style>
+  /* ============================================
+     Tipografía: cascada Apple con fallbacks
+     ============================================ */
+  @font-face {
+    font-family: 'system-ui-fallback';
+    src: local('SF Pro Display'), local('SF Pro Text'),
+         local('-apple-system'), local('BlinkMacSystemFont'),
+         local('Helvetica Neue'), local('Helvetica'), local('Inter');
+  }
+
+  :root {
+    --bg: #fbfbfd;
+    --bg-soft: #f5f5f7;
+    --bg-card: #ffffff;
+    --ink: #1d1d1f;
+    --ink-soft: #494950;
+    --ink-mute: #86868b;
+    --line: #d2d2d7;
+    --line-soft: #e8e8ed;
+    --accent: #0071e3;
+    --accent-soft: #e8f1fc;
+    --aurea: #b78a3f;
+    --aurea-soft: #f6efe2;
+    --teal: #0d7c66;
+    --teal-soft: #e2f0ed;
+    --rose: #b14b6a;
+    --rose-soft: #f7e6ec;
+    --radius: 18px;
+    --radius-sm: 12px;
+    --radius-lg: 28px;
+    --shadow: 0 1px 0 rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "SF Pro Text", "Helvetica Neue", "Inter", "Segoe UI",
+                 Roboto, system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================
+     Layout: contenedores
+     ============================================ */
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  .wrap-narrow {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ============================================
+     Navegación superior (estilo Apple, fija)
+     ============================================ */
+  nav.top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(251, 251, 253, 0.82);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid var(--line-soft);
+    height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  nav.top .wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  nav.top .brand {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  nav.top .brand .dot {
+    color: var(--aurea);
+  }
+  nav.top ul {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav.top a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0;
+    transition: color 0.2s ease;
+  }
+  nav.top a:hover { color: var(--ink); }
+  @media (max-width: 720px) {
+    nav.top ul { display: none; }
+  }
+
+  /* ============================================
+     Hero
+     ============================================ */
+  header.hero {
+    padding: 96px 0 80px;
+    text-align: center;
+  }
+  header.hero .eyebrow {
+    color: var(--aurea);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  header.hero h1 {
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+  header.hero h1 em {
+    font-style: normal;
+    color: var(--aurea);
+  }
+  header.hero .lede {
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: clamp(19px, 2.1vw, 22px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  header.hero .meta {
+    margin-top: 32px;
+    display: inline-flex;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    border: 0.5px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    background: var(--bg-card);
+  }
+  header.hero .meta span strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ============================================
+     Secciones genéricas
+     ============================================ */
+  section {
+    padding: 80px 0;
+  }
+  section.tight { padding: 56px 0; }
+
+  h2.section {
+    font-size: clamp(32px, 4.5vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--aurea);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    vertical-align: top;
+    margin-right: 16px;
+    margin-top: 18px;
+  }
+  .section-lede {
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    letter-spacing: -0.01em;
+    max-width: 720px;
+    margin: 0 0 48px;
+  }
+
+  h3.sub {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin: 32px 0 12px;
+    color: var(--ink);
+  }
+  h4.minor {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+    margin: 24px 0 8px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  p { margin: 0 0 16px; }
+  p.dim { color: var(--ink-soft); }
+  p.tiny { font-size: 13px; color: var(--ink-mute); line-height: 1.5; }
+
+  strong { font-weight: 500; color: var(--ink); }
+  em.aurea { font-style: normal; color: var(--aurea); font-weight: 500; }
+  em.accent { font-style: normal; color: var(--accent); font-weight: 500; }
+
+  /* ============================================
+     Cards
+     ============================================ */
+  .card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    box-shadow: var(--shadow);
+  }
+  .card .tag {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .card h3 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+    line-height: 1.15;
+  }
+  .card .price {
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .card p { font-size: 16px; line-height: 1.5; color: var(--ink-soft); }
+  .card ul { padding-left: 20px; margin: 12px 0; color: var(--ink-soft); }
+  .card ul li { margin-bottom: 6px; }
+
+  /* ============================================
+     Grids
+     ============================================ */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 860px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================
+     Stat / KPI block
+     ============================================ */
+  .stat {
+    background: var(--bg-soft);
+    border-radius: var(--radius-sm);
+    padding: 24px 22px;
+    text-align: left;
+  }
+  .stat .num {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat .num small {
+    font-size: 18px;
+    color: var(--ink-mute);
+    font-weight: 400;
+  }
+  .stat .label {
+    font-size: 13px;
+    color: var(--ink-mute);
+    line-height: 1.4;
+  }
+
+  /* ============================================
+     Recommended card (option B)
+     ============================================ */
+  .card.recommended {
+    border: 1px solid var(--aurea);
+    position: relative;
+  }
+  .card.recommended::before {
+    content: 'Recomendado';
+    position: absolute;
+    top: -12px;
+    left: 32px;
+    background: var(--aurea);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  /* ============================================
+     Timeline / Hitos
+     ============================================ */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+    margin-top: 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--line);
+  }
+  .ts-item {
+    position: relative;
+    padding-bottom: 36px;
+  }
+  .ts-item::before {
+    content: '';
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    background: var(--bg);
+    border: 2px solid var(--aurea);
+    border-radius: 50%;
+  }
+  .ts-item.done::before { background: var(--aurea); }
+  .ts-item .when {
+    font-size: 12px;
+    color: var(--aurea);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .ts-item h4 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .ts-item p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* ============================================
+     Tabla / rúbrica
+     ============================================ */
+  table.rubric {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 24px;
+  }
+  table.rubric th, table.rubric td {
+    text-align: left;
+    padding: 14px 12px;
+    border-bottom: 0.5px solid var(--line-soft);
+    vertical-align: top;
+  }
+  table.rubric th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    background: var(--bg-soft);
+    border-bottom: 0.5px solid var(--line);
+  }
+  table.rubric td.dim-label {
+    font-weight: 500;
+    color: var(--ink);
+    width: 200px;
+  }
+  table.rubric td.score-cell {
+    color: var(--ink-soft);
+    line-height: 1.45;
+  }
+
+  /* ============================================
+     Inputs rellenables
+     ============================================ */
+  .form-block {
+    background: var(--bg-card);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin: 24px 0;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    align-items: center;
+    border-bottom: 0.5px solid var(--line-soft);
+  }
+  .form-row:last-child { border-bottom: none; }
+  .form-row label {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+  .form-row input,
+  .form-row textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+    transition: border-color 0.2s ease;
+  }
+  .form-row input:focus,
+  .form-row textarea:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+  }
+  .form-row textarea {
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.5;
+  }
+  .form-row input::placeholder,
+  .form-row textarea::placeholder {
+    color: var(--ink-mute);
+    font-weight: 300;
+  }
+  @media (max-width: 720px) {
+    .form-row { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  /* Score input for rubric (interactive) */
+  .score-input {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .score-input button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 0.5px solid var(--line);
+    background: var(--bg-card);
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--ink-mute);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .score-input button:hover { border-color: var(--aurea); color: var(--aurea); }
+  .score-input button.on {
+    background: var(--aurea);
+    color: white;
+    border-color: var(--aurea);
+  }
+  .score-total {
+    margin-top: 24px;
+    padding: 18px 22px;
+    background: var(--aurea-soft);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .score-total strong {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--aurea);
+    letter-spacing: -0.02em;
+  }
+
+  /* ============================================
+     Pill / chip
+     ============================================ */
+  .chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .chip.blue { background: var(--accent-soft); color: var(--accent); }
+  .chip.aurea { background: var(--aurea-soft); color: var(--aurea); }
+  .chip.teal { background: var(--teal-soft); color: var(--teal); }
+  .chip.rose { background: var(--rose-soft); color: var(--rose); }
+  .chip.gray { background: var(--bg-soft); color: var(--ink-soft); }
+
+  /* ============================================
+     Quote / pull
+     ============================================ */
+  blockquote.pull {
+    border: none;
+    margin: 40px 0;
+    padding: 0;
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  blockquote.pull::before {
+    content: '“';
+    color: var(--aurea);
+    font-size: 1em;
+    margin-right: 4px;
+  }
+  blockquote.pull cite {
+    display: block;
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--ink-mute);
+    font-style: normal;
+    letter-spacing: 0;
+  }
+
+  /* ============================================
+     Diagrama articulación (SVG-friendly)
+     ============================================ */
+  .diagram {
+    background: var(--bg-card);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin: 32px 0;
+  }
+  .diagram-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+  .diagram-row:last-child { margin-bottom: 0; }
+  .diagram-node {
+    text-align: center;
+    padding: 18px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-soft);
+  }
+  .diagram-node .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .diagram-node .name {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .diagram-node .meta {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 4px;
+  }
+  .diagram-arrow {
+    text-align: center;
+    color: var(--aurea);
+    font-size: 22px;
+    font-weight: 300;
+  }
+
+  /* ============================================
+     Footer
+     ============================================ */
+  footer.foot {
+    border-top: 0.5px solid var(--line-soft);
+    padding: 56px 0 80px;
+    margin-top: 80px;
+    color: var(--ink-mute);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  footer.foot strong { color: var(--ink-soft); font-weight: 500; }
+
+  /* ============================================
+     Botones (acción imprimir / guardar)
+     ============================================ */
+  .actions {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .actions button {
+    background: var(--bg-card);
+    border: 0.5px solid var(--line);
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .actions button:hover {
+    transform: translateY(-1px);
+    background: var(--ink);
+    color: white;
+  }
+  .actions button.primary {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+  .actions button.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* ============================================
+     Print
+     ============================================ */
+  @media print {
+    nav.top, .actions { display: none; }
+    body { background: white; }
+    .card, .form-block, .diagram { box-shadow: none; break-inside: avoid; }
+    section { padding: 32px 0; break-inside: avoid; }
+    h2.section { page-break-after: avoid; }
+    header.hero { padding: 32px 0; }
+    @page { margin: 1.5cm; }
+  }
+
+  /* ============================================
+     Save indicator
+     ============================================ */
+  #save-indicator {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 70;
+  }
+  #save-indicator.show { opacity: 0.9; }
+
+</style>
+</head>
+<body>
+
+<!-- Navegación superior -->
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">Atenea <span class="dot">·</span> Áurea Joven</div>
+    <ul>
+      <li><a href="#diagnostico">Diagnóstico</a></li>
+      <li><a href="#arquitectura">Arquitectura</a></li>
+      <li><a href="#opciones">Opciones</a></li>
+      <li><a href="#hitos">Hitos</a></li>
+      <li><a href="#rubrica">Rúbrica</a></li>
+      <li><a href="#financiacion">Financiación</a></li>
+      <li><a href="#lienzo">Lienzo</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap-narrow">
+    <div class="eyebrow">Sección juvenil de Atenea · Salamanca · Mayo 2026</div>
+    <h1>Áurea <em>Joven.</em></h1>
+    <p class="lede">Una sección juvenil construida para que los adolescentes con altas capacidades no sean alumnos atendidos sino <strong>arquitectos</strong> del proyecto. Tutores de los pequeños. Mediadores de la sensibilización. Laboratorio vivo de innovación social con inteligencia artificial.</p>
+    <div class="meta">
+      <span>Para <strong>65 familias</strong></span>
+      <span>·</span>
+      <span><strong>65–100</strong> menores</span>
+      <span>·</span>
+      <span>Horizonte <strong>24 meses</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="wrap-narrow">
+    <h2 class="section"><span class="num">01</span>Diagnóstico</h2>
+    <p class="section-lede">Atenea tiene un activo que ninguna asociación equiparable de Castilla y León posee: una masa social de <strong>sesenta y cinco familias</strong> con menores diagnosticados, una agenda institucional viva con el Ayuntamiento y la UPSA, y un formador asociado —Diego Elvira— premiado en Hack4Edu 2026. Lo que falta no es talento ni demanda. Falta una <em class="aurea">arquitectura</em> que convierta a los adolescentes en algo distinto de espectadores.</p>
+
+    <div class="grid-4" style="margin: 40px 0 56px;">
+      <div class="stat">
+        <div class="num">65</div>
+        <div class="label">Familias activas</div>
+      </div>
+      <div class="stat">
+        <div class="num">65–100</div>
+        <div class="label">Menores beneficiarios potenciales</div>
+      </div>
+      <div class="stat">
+        <div class="num">210</div>
+        <div class="label">Niños AACC identificados en Salamanca</div>
+      </div>
+      <div class="stat">
+        <div class="num">2 580<small></small></div>
+        <div class="label">Brecha de subdiagnóstico provincial</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Lo que no funciona del modelo actual</h3>
+    <p>Las asociaciones de altas capacidades españolas atienden a sus adolescentes con dos estrategias agotadas. La primera reduce al chico de quince años a destinatario pasivo de talleres diseñados para niños de nueve. La segunda lo empuja a una sección juvenil-club donde se reúne con sus iguales y descubre, con incomodidad creciente, que estar con otros AACC no es por sí mismo un proyecto.</p>
+    <p>El resultado documentado: <strong>fuga estructural entre los doce y los dieciséis años</strong>, justo en la franja donde el subdiagnóstico se convierte en autoetiquetado y la pertenencia se vuelve necesidad. Los chicos no abandonan Atenea por falta de afinidad; abandonan porque la asociación no les pide nada significativo a cambio de su tiempo.</p>
+
+    <blockquote class="pull">
+      Un adolescente con altas capacidades no necesita más talleres. Necesita responsabilidad, una causa, y un sitio donde su edad mental encuentre tareas a su altura.
+      <cite>— Premisa de diseño de Áurea Joven</cite>
+    </blockquote>
+
+    <h3 class="sub">El giro: del joven asistido al joven articulador</h3>
+    <p>Áurea Joven invierte el vector. Los adolescentes de catorce a treinta años con AACC no son atendidos por Atenea: <strong>son el motor operativo</strong> de Atenea hacia los pequeños, hacia la comunidad escolar de Salamanca y hacia el ecosistema europeo. Tres funciones simultáneas, cada una financiable por una convocatoria distinta.</p>
+  </div>
+</section>
+
+<!-- ARQUITECTURA -->
+<section id="arquitectura" style="background: var(--bg-soft);">
+  <div class="wrap">
+    <div class="wrap-narrow" style="padding: 0;">
+      <h2 class="section"><span class="num">02</span>Arquitectura jurídica</h2>
+      <p class="section-lede">La constitución de la sección juvenil tiene dos caminos. Recomendamos el camino corto primero, dejando abierto el camino largo cuando la masa crítica lo justifique.</p>
+    </div>
+
+    <div class="grid-2" style="margin-top: 32px;">
+      <div class="card recommended">
+        <div class="tag">Vía A · Inmediata</div>
+        <h3>Sección juvenil interna</h3>
+        <div class="price">Coste 0 € · 2 meses · sin nuevo NIF</div>
+        <p>Atenea modifica sus estatutos para incorporar una <strong>sección juvenil</strong> con autonomía funcional, gobierno propio y representación en la Junta Directiva, en los términos del artículo 51 de la Ley 11/2002 de Juventud de Castilla y León.</p>
+        <h4 class="minor">Lo que requiere</h4>
+        <ul>
+          <li>Modificación estatutaria aprobada en Asamblea</li>
+          <li>Reglamento interno de la sección juvenil</li>
+          <li>Coordinador juvenil (14–30 años) elegido por los miembros</li>
+          <li>Inscripción en el Registro de Asociaciones Juveniles JCyL como sección juvenil de Atenea</li>
+        </ul>
+        <h4 class="minor">Lo que habilita</h4>
+        <ul>
+          <li>Concurso de Proyectos Juveniles del Ayuntamiento de Salamanca</li>
+          <li>Erasmus+ KA152 Intercambios Juveniles</li>
+          <li>Cuerpo Europeo de Solidaridad — Proyectos Solidarios</li>
+          <li>Cesión de espacios juveniles municipales</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="tag">Vía B · Diferida</div>
+        <h3>Asociación juvenil hija</h3>
+        <div class="price">Coste 200–600 € · 4 meses · NIF propio</div>
+        <p>Creación de una <strong>asociación juvenil independiente</strong> con personalidad jurídica propia, federada con Atenea mediante convenio. Mayor autonomía, mayor coste administrativo, mayor capacidad de concurrencia.</p>
+        <h4 class="minor">Lo que requiere</h4>
+        <ul>
+          <li>Tres promotores mayores de 14 años</li>
+          <li>Acta fundacional y estatutos propios</li>
+          <li>70 % de los socios en franja 14–30 años</li>
+          <li>Junta Directiva con mitad de miembros menores de 30</li>
+          <li>NIF, alta IAE, contabilidad separada</li>
+        </ul>
+        <h4 class="minor">Cuándo activarla</h4>
+        <ul>
+          <li>Cuando la sección supere los 30 jóvenes activos</li>
+          <li>Cuando se aspire a convocatorias autonómicas que exijan asociación juvenil pura</li>
+          <li>Cuando exista coordinador remunerado a tiempo parcial</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub" style="margin-top: 56px;">Articulación operativa</h3>
+    <p>El esquema funcional descansa sobre tres capas que se relacionan en cascada y se evalúan en circuito cerrado. Los nombres no son decorativos: cada uno define un rol y un perímetro de responsabilidad.</p>
+
+    <div class="diagram">
+      <div class="diagram-row">
+        <div class="diagram-node">
+          <div class="label">Capa 1</div>
+          <div class="name">Áurea Joven</div>
+          <div class="meta">Adolescentes 14–18 · Jóvenes 19–30</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="label">Tutorizan</div>
+          <div class="name">Mochuelos Aprendices</div>
+          <div class="meta">Niños 7–13 socios de Atenea</div>
+        </div>
+      </div>
+      <div class="diagram-row">
+        <div class="diagram-node">
+          <div class="label">Capa 2</div>
+          <div class="name">Áurea Joven</div>
+          <div class="meta">Equipo de sensibilización</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="label">Visibilizan AACC en</div>
+          <div class="name">Centros escolares de Salamanca</div>
+          <div class="meta">IES + CEIPs + AMPAs</div>
+        </div>
+      </div>
+      <div class="diagram-row">
+        <div class="diagram-node">
+          <div class="label">Capa 3</div>
+          <div class="name">Áurea Joven</div>
+          <div class="meta">Laboratorio de innovación</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="label">Desarrollan</div>
+          <div class="name">Talleres IA aplicada</div>
+          <div class="meta">Bajo dirección de experto contratado</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="tiny" style="margin-top: 12px;">La doble dirección del flujo —los jóvenes enseñan a los pequeños mientras aprenden del experto en IA— es el dispositivo pedagógico nuclear. La <strong>tutoría entre iguales</strong> (peer tutoring) está validada por evidencia académica como el método más efectivo de consolidación de aprendizajes en estudiantes de alta capacidad: enseñar es la forma más profunda de aprender.</p>
+  </div>
+</section>
+
+<!-- OPCIONES -->
+<section id="opciones">
+  <div class="wrap">
+    <div class="wrap-narrow" style="padding: 0;">
+      <h2 class="section"><span class="num">03</span>Tres opciones de proyecto</h2>
+      <p class="section-lede">Cada opción es presentable a una convocatoria distinta. No son excluyentes: la estrategia óptima es <strong>secuenciarlas</strong> a lo largo de doce meses, presentando una por trimestre.</p>
+    </div>
+
+    <div class="grid-3" style="margin-top: 32px;">
+      <!-- Opción A -->
+      <div class="card">
+        <div class="tag">Opción A · Mínimo viable</div>
+        <h3>Mochuelos Tutores</h3>
+        <div class="price">Hasta 2 000 € · Q1 2027</div>
+        <p>Proyecto tutor puro. Los adolescentes de Áurea Joven, formados previamente en pedagogía de la diferencia, acompañan en parejas a los niños recién diagnosticados de la asociación. Una sesión quincenal durante el curso escolar, supervisada por Diego.</p>
+        <h4 class="minor">Convocatoria</h4>
+        <p style="font-size:14px;">XVI Concurso de Proyectos Juveniles del Ayuntamiento de Salamanca · modalidad <strong>asociacionismo, participación, voluntariado y actividades intergeneracionales</strong>.</p>
+        <h4 class="minor">Fortalezas</h4>
+        <ul>
+          <li>Coste de producción casi nulo</li>
+          <li>Encaja con la masa social actual de Atenea</li>
+          <li>Probabilidad de premio elevada en su modalidad</li>
+        </ul>
+        <h4 class="minor">Límite</h4>
+        <p style="font-size:14px; color: var(--ink-mute);">Techo financiero bajo y nula proyección internacional.</p>
+      </div>
+
+      <!-- Opción B - Recomendado -->
+      <div class="card recommended">
+        <div class="tag">Opción B · Ambición proporcional</div>
+        <h3>Áurea Lab</h3>
+        <div class="price">Hasta 8 560 € agregados · Q1–Q3 2027</div>
+        <p>Laboratorio de inteligencia artificial dirigido por experto contratado. Los jóvenes co-diseñan, prototipan y enseñan a los pequeños herramientas IA aplicadas a su día a día educativo. Salida pública: una jornada anual en el Espacio Joven con prototipos abiertos.</p>
+        <h4 class="minor">Convocatoria combinada</h4>
+        <p style="font-size:14px;">
+          XVI Concurso modalidad <strong>innovación, formación, ciencia y nuevas tecnologías</strong> (hasta 2 000 €) + Cuerpo Europeo de Solidaridad <strong>Proyectos Solidarios ESC30</strong> (630 €/mes × hasta 10 meses ≈ 6 300 €) + Beca NEAE familias (913 + 400 € por niño).
+        </p>
+        <h4 class="minor">Fortalezas</h4>
+        <ul>
+          <li>Concurrencia simultánea a tres convocatorias compatibles</li>
+          <li>Contrata al experto IA con cargo a presupuesto subvencionado</li>
+          <li>Salida pública con valor reputacional alto</li>
+          <li>Apalanca el premio Hack4Edu 2026 de Diego</li>
+        </ul>
+        <h4 class="minor">Riesgo</h4>
+        <p style="font-size:14px; color: var(--ink-mute);">Exige coordinación multifuente y justificación administrativa rigurosa.</p>
+      </div>
+
+      <!-- Opción C -->
+      <div class="card">
+        <div class="tag">Opción C · Vuelo largo</div>
+        <h3>Mochuelos Ágora</h3>
+        <div class="price">30 000–60 000 € · Q4 2027</div>
+        <p>Fusión completa con socio europeo. Tutorización entre iguales + sensibilización en centros escolares + intercambio juvenil internacional sobre altas capacidades, IA y participación democrática. Aspira a convertir a Salamanca en nodo europeo del modelo.</p>
+        <h4 class="minor">Convocatoria</h4>
+        <p style="font-size:14px;">Erasmus+ <strong>KA210 Asociaciones a Pequeña Escala</strong> (30 000 o 60 000 € a tanto alzado) o <strong>KA152 Intercambios Juveniles</strong>.</p>
+        <h4 class="minor">Fortalezas</h4>
+        <ul>
+          <li>Salto cualitativo en escala</li>
+          <li>Permite contratar coordinador a tiempo parcial</li>
+          <li>Inscribe a Atenea en el mapa europeo de AACC</li>
+        </ul>
+        <h4 class="minor">Requisito previo</h4>
+        <p style="font-size:14px; color: var(--ink-mute);">Identificar socio europeo antes del otoño 2026: Italia, Portugal, Alemania o Francia tienen asociaciones AACC consolidadas.</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 40px;" class="dim">La <em class="aurea">recomendación estratégica</em> es presentar las tres en cascada: opción A en enero de 2027 como prueba de concepto y aterrizaje, opción B en primavera para asegurar la financiación que sostenga el curso 2027-28, opción C en octubre con un socio europeo ya identificado durante el verano. El primer año genera capacidad de gestión; el segundo, escala.</p>
+  </div>
+</section>
+
+<!-- ROL EXPERTO IA -->
+<section id="experto" style="background: var(--bg-soft);">
+  <div class="wrap-narrow">
+    <h2 class="section"><span class="num">04</span>El experto en IA</h2>
+    <p class="section-lede">La opción B prevé la <strong>contratación de un experto en inteligencia artificial</strong> como coordinador técnico de Áurea Lab. La figura no es un capricho: es la que convierte el laboratorio en formación con valor reputacional certificable y en flujo financiero estable.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Función</h3>
+        <p>Diseña el currículo trimestral de Áurea Lab, dirige los talleres de prototipado con los jóvenes, supervisa la transferencia hacia los pequeños, certifica formalmente las sesiones como <em class="aurea">programas específicos para alumnado de altas capacidades</em> en los términos del artículo 7.3.º bis de la Ley 49/2002, lo que permite a las familias recuperar la Beca NEAE de 913 €.</p>
+        <h4 class="minor">Forma jurídica</h4>
+        <ul>
+          <li>Contrato de prestación de servicios mercantil (autónomo)</li>
+          <li>O convenio entre Atenea y la UPSA si mantiene su plaza investigadora</li>
+          <li><strong>Nunca</strong> cargo directivo retribuido — compromete la futura Declaración de Utilidad Pública</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Dimensión y dotación</h3>
+        <p>El perfil necesario combina conocimiento técnico (LLMs, prompt engineering, despliegue de aplicaciones), formación pedagógica y familiaridad con la realidad de las altas capacidades. Diego Elvira, formador asociado actual y ganador de Hack4Edu 2026, encaja con precisión inusual.</p>
+        <h4 class="minor">Dedicación sugerida</h4>
+        <ul>
+          <li>8–12 horas semanales en curso escolar</li>
+          <li>Tarifa de mercado: 35–55 €/hora para perfil senior</li>
+          <li>Coste anual estimado: <strong>10 000–18 000 €</strong></li>
+        </ul>
+        <h4 class="minor">Cobertura</h4>
+        <p style="font-size:14px;">Cuerpo Europeo de Solidaridad (≈6 300 €) + XVI Concurso (2 000 €) + cesión universidad (espacios) + facturación talleres a familias certificada Beca NEAE.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HITOS -->
+<section id="hitos">
+  <div class="wrap-narrow">
+    <h2 class="section"><span class="num">05</span>Hitos cronológicos</h2>
+    <p class="section-lede">Doce hitos en dieciocho meses. El calendario está calibrado contra las fechas reales de las convocatorias de 2026-2027 y deja margen para reconducciones orgánicas.</p>
+
+    <div class="timeline">
+
+      <div class="ts-item">
+        <div class="when">Junio 2026 · Mes 1</div>
+        <h4>Aprobación en Asamblea Extraordinaria</h4>
+        <p>Mª del Pilar convoca asamblea para presentar Áurea Joven, votar la modificación estatutaria (sección juvenil interna) y aprobar el reglamento. La acción nace con mandato democrático explícito de los socios.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Julio 2026 · Mes 2</div>
+        <h4>Constitución informal del núcleo juvenil</h4>
+        <p>Identificación de los primeros cinco a ocho adolescentes interesados (la masa social de Atenea contiene al menos diez candidatos naturales). Reunión fundacional, elección de coordinador, definición de los dos primeros proyectos a presentar.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Septiembre 2026 · Mes 4</div>
+        <h4>Inscripción en el Registro de Asociaciones Juveniles JCyL</h4>
+        <p>Tramitación electrónica en la sede de la Junta. La sección juvenil queda registrada como entidad prestadora de servicios a la juventud bajo el paraguas de Atenea. Habilitación para concurrir.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Octubre 2026 · Mes 5</div>
+        <h4>Identificación de socio europeo</h4>
+        <p>Mapeo de asociaciones AACC en Italia (Step-net), Portugal (APCS), Alemania (DGhK) o Francia (ANPEIP). Primera videollamada con uno o dos candidatos. Carta de intenciones firmada antes de diciembre.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Noviembre 2026 · Mes 6</div>
+        <h4>Primer encuentro piloto Mochuelos Tutores</h4>
+        <p>Sin esperar financiación. Cinco parejas tutor-tutorizado, una sesión quincenal de noventa minutos en la Casa de las Asociaciones. Documentación fotográfica y testimonios para la memoria del proyecto.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Enero 2027 · Mes 8</div>
+        <h4>Presentación XVI Concurso Proyectos Juveniles 2027</h4>
+        <p>Plazo de presentación a finales de enero. Atenea concurre con las dos modalidades complementarias: <strong>asociacionismo</strong> (opción A) e <strong>innovación tecnológica</strong> (opción B). Posibilidad de premio acumulado hasta 4 000 €.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Febrero 2027 · Mes 9</div>
+        <h4>Solicitud Cuerpo Europeo de Solidaridad — ronda 1</h4>
+        <p>Fecha límite 18 de febrero. Proyecto Solidario ESC30 para Áurea Lab. Grupo de cinco o más jóvenes mayores de 18 años de Atenea presentan directamente la solicitud. Cuantía objetivo: 6 300 €.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Marzo 2027 · Mes 10</div>
+        <h4>Erasmus+ KA152 — ronda 1</h4>
+        <p>Solicitud de intercambio juvenil con el socio europeo identificado. Tema: altas capacidades, inteligencia artificial y participación democrática. Cuantía estimada: 15 000–25 000 €.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Abril 2027 · Mes 11</div>
+        <h4>Resolución XVI Concurso · Lanzamiento público</h4>
+        <p>Acto de presentación de Áurea Joven con la prensa local. Iluminación simbólica de la Puerta de Zamora coincidiendo con el Día Internacional de las AACC. Recogida de premios municipales.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Junio 2027 · Mes 13</div>
+        <h4>Primera evaluación con rúbrica trimestral</h4>
+        <p>Aplicación de la rúbrica de seis dimensiones (sección 06). Reunión de Áurea Joven con la Junta Directiva de Atenea. Decisión sobre continuidad, expansión o reconducción.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Septiembre 2027 · Mes 16</div>
+        <h4>Lanzamiento curso 2027-28 con experto IA contratado</h4>
+        <p>Si la opción B se ha materializado, el experto IA inicia su contrato. Áurea Lab arranca su primer curso completo. Veinte jóvenes formados, cuarenta niños tutorizados, dos centros escolares con jornadas de sensibilización.</p>
+      </div>
+
+      <div class="ts-item">
+        <div class="when">Octubre 2027 · Mes 17</div>
+        <h4>Erasmus+ KA210 — convocatoria 2028</h4>
+        <p>Si las dos primeras rondas han generado capacidad de gestión, presentación del proyecto Mochuelos Ágora con socio europeo consolidado. Cuantía objetivo: 60 000 €. Salto cualitativo de escala.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RÚBRICA -->
+<section id="rubrica" style="background: var(--bg-soft);">
+  <div class="wrap-narrow">
+    <h2 class="section"><span class="num">06</span>Rúbrica de evaluación</h2>
+    <p class="section-lede">Seis dimensiones, cada una puntuada de cero a cuatro. Evaluación trimestral conjunta entre Junta Directiva, coordinador juvenil y experto IA. Total máximo: <strong>24 puntos</strong>. Por debajo de 12, reconducción.</p>
+
+    <table class="rubric" id="rubric-table">
+      <thead>
+        <tr>
+          <th>Dimensión</th>
+          <th>0 · Ausente</th>
+          <th>1 · Inicial</th>
+          <th>2 · En curso</th>
+          <th>3 · Consolidado</th>
+          <th>4 · Modélico</th>
+          <th>Puntos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim-label">Impacto en niños tutorizados</td>
+          <td class="score-cell">No hay pares activos</td>
+          <td class="score-cell">1–3 pares irregulares</td>
+          <td class="score-cell">5–8 pares quincenales</td>
+          <td class="score-cell">10+ pares con bitácora</td>
+          <td class="score-cell">15+ pares con resultados medibles</td>
+          <td><div class="score-input" data-dim="impacto"></div></td>
+        </tr>
+        <tr>
+          <td class="dim-label">Crecimiento de los tutores</td>
+          <td class="score-cell">Sin formación recibida</td>
+          <td class="score-cell">Inducción inicial</td>
+          <td class="score-cell">Formación trimestral</td>
+          <td class="score-cell">Certificación interna emitida</td>
+          <td class="score-cell">Certificación reconocida por UPSA</td>
+          <td><div class="score-input" data-dim="crecimiento"></div></td>
+        </tr>
+        <tr>
+          <td class="dim-label">Sensibilización en centros</td>
+          <td class="score-cell">Ningún centro contactado</td>
+          <td class="score-cell">1 charla puntual</td>
+          <td class="score-cell">3 charlas en el curso</td>
+          <td class="score-cell">5+ charlas + AMPAs</td>
+          <td class="score-cell">Programa formalizado con la Consejería</td>
+          <td><div class="score-input" data-dim="sensibilizacion"></div></td>
+        </tr>
+        <tr>
+          <td class="dim-label">Sostenibilidad financiera</td>
+          <td class="score-cell">Sin ingresos</td>
+          <td class="score-cell">Una convocatoria presentada</td>
+          <td class="score-cell">Una convocatoria ganada</td>
+          <td class="score-cell">Dos fuentes activas</td>
+          <td class="score-cell">Tres+ fuentes y reservas para 12 meses</td>
+          <td><div class="score-input" data-dim="financiera"></div></td>
+        </tr>
+        <tr>
+          <td class="dim-label">Innovación pedagógica-tecnológica</td>
+          <td class="score-cell">Sin componente IA</td>
+          <td class="score-cell">Demos puntuales</td>
+          <td class="score-cell">Taller trimestral estable</td>
+          <td class="score-cell">Prototipo público con autoría joven</td>
+          <td class="score-cell">Producto educativo replicable</td>
+          <td><div class="score-input" data-dim="innovacion"></div></td>
+        </tr>
+        <tr>
+          <td class="dim-label">Reconducción orgánica</td>
+          <td class="score-cell">Plan rígido aplicado a ciegas</td>
+          <td class="score-cell">Revisiones informales</td>
+          <td class="score-cell">Una reconducción documentada</td>
+          <td class="score-cell">Ajustes trimestrales con bitácora</td>
+          <td class="score-cell">Adaptación emergente continua</td>
+          <td><div class="score-input" data-dim="organica"></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="score-total">
+      <span>Puntuación total trimestral</span>
+      <strong id="rubric-total">0 / 24</strong>
+    </div>
+
+    <p class="tiny" style="margin-top: 20px;">Las puntuaciones se almacenan localmente en el navegador para que cada trimestre puedas reabrir este documento y comparar la evolución. No se envían datos a ningún servidor.</p>
+  </div>
+</section>
+
+<!-- RECONDUCCIÓN ORGÁNICA -->
+<section id="organica">
+  <div class="wrap-narrow">
+    <h2 class="section"><span class="num">07</span>Reconducción orgánica</h2>
+    <p class="section-lede">Los proyectos juveniles que funcionan no son los que cumplen el plan inicial: son los que <strong>se ajustan a la realidad emergente</strong> sin perder la dirección. La metodología siguiente convierte la adaptabilidad en disciplina explícita.</p>
+
+    <h3 class="sub">El principio</h3>
+    <p>Los objetivos del año uno son <em class="aurea">propuestos, alcanzables y reconducibles</em>. Propuestos: el equipo joven los formula al inicio. Alcanzables: dimensionados a la masa social real, no a expectativas infladas. Reconducibles: revisados cada trimestre con la rúbrica anterior y reformulados sin culpa cuando la realidad lo exige.</p>
+
+    <h3 class="sub">El procedimiento trimestral</h3>
+    <p>Cada noventa días, la sección juvenil dedica una sesión de noventa minutos a tres preguntas escritas en la pizarra y respondidas por consenso.</p>
+
+    <div class="grid-3" style="margin-top: 24px;">
+      <div class="card">
+        <span class="chip aurea">Pregunta 1</span>
+        <h3 style="font-size:20px;">¿Qué está funcionando mejor de lo esperado?</h3>
+        <p style="font-size:14px;">Identifica el componente que <strong>tira</strong>. Es la pista para reforzar y ampliar. La energía siempre se concentra donde la realidad está dispuesta a colaborar.</p>
+      </div>
+      <div class="card">
+        <span class="chip rose">Pregunta 2</span>
+        <h3 style="font-size:20px;">¿Qué está funcionando peor de lo esperado?</h3>
+        <p style="font-size:14px;">Identifica el componente que <strong>frena</strong>. La tentación es insistir; la disciplina es preguntarse si insistir tiene sentido o si la realidad está pidiendo otra cosa.</p>
+      </div>
+      <div class="card">
+        <span class="chip teal">Pregunta 3</span>
+        <h3 style="font-size:20px;">¿Qué necesidad nueva ha emergido?</h3>
+        <p style="font-size:14px;">Identifica el componente <strong>imprevisto</strong>. Casi siempre aparece. Es la materia prima del año dos: lo que no estaba en el plan inicial pero pide existir.</p>
+      </div>
+    </div>
+
+    <h3 class="sub" style="margin-top:48px;">La regla de los tercios</h3>
+    <p>En cada trimestre, un tercio del esfuerzo debe ir a <strong>consolidar</strong> lo que ya funciona, un tercio a <strong>corregir</strong> lo que cojea, y un tercio a <strong>explorar</strong> lo emergente. Si los tercios se desequilibran demasiado, el proyecto se hace rígido (todo consolidación), defensivo (todo corrección) o disperso (todo exploración).</p>
+
+    <blockquote class="pull">
+      Un proyecto juvenil bien diseñado tiene la geometría de un río: dirección clara, cauce flexible, capacidad de cambiar de orilla sin perder el mar.
+      <cite>— Principio de reconducción orgánica</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- FINANCIACIÓN -->
+<section id="financiacion" style="background: var(--bg-soft);">
+  <div class="wrap">
+    <div class="wrap-narrow" style="padding: 0;">
+      <h2 class="section"><span class="num">08</span>De dónde sale el dinero</h2>
+      <p class="section-lede">Cuatro fuentes verificadas, cada una con cuantía, plazo y compatibilidad confirmadas. Presentadas en orden de proximidad temporal.</p>
+    </div>
+
+    <div class="grid-2" style="margin-top: 32px;">
+      <div class="card">
+        <div class="tag">Municipal · Convocatoria abierta cada enero</div>
+        <h3>XVI Concurso de Proyectos Juveniles</h3>
+        <div class="price">Hasta 2 000 € por modalidad · Aytº Salamanca</div>
+        <p>Edición 2026 cerrada el 7 de febrero; presupuesto 50 000 € distribuidos en ocho modalidades. La próxima edición abrirá en enero de 2027. Atenea puede presentar hasta tres proyectos.</p>
+        <h4 class="minor">Modalidades aplicables</h4>
+        <ul>
+          <li>Asociacionismo, participación y voluntariado</li>
+          <li>Innovación, formación, ciencia y nuevas tecnologías</li>
+          <li>Expresión artística y talleres creativos</li>
+        </ul>
+        <h4 class="minor">Requisito</h4>
+        <p style="font-size:14px;">Inscripción previa de la sección juvenil en el Registro Municipal de Asociaciones.</p>
+      </div>
+
+      <div class="card">
+        <div class="tag">Europeo · Plazos febrero y mayo</div>
+        <h3>Cuerpo Europeo de Solidaridad — ESC30</h3>
+        <div class="price">630 € / mes · Hasta 12 meses · Hasta 7 560 €</div>
+        <p>Proyectos Solidarios para grupos de cinco o más jóvenes mayores de 18 años residentes en España. Presentación directa por el grupo, sin necesidad de socio extranjero ni sello de calidad. Tutoría adicional financiada.</p>
+        <h4 class="minor">Próximas fechas 2026-27</h4>
+        <ul>
+          <li>7 de mayo de 2026 — ronda 2 (cerrada)</li>
+          <li>1 de octubre de 2026 — ronda 3</li>
+          <li>18 de febrero de 2027 — ronda 1 del año siguiente</li>
+        </ul>
+        <h4 class="minor">Encaje</h4>
+        <p style="font-size:14px;">Perfecta para financiar el coordinador IA y los gastos de Áurea Lab.</p>
+      </div>
+
+      <div class="card">
+        <div class="tag">Europeo · Plazos febrero y octubre</div>
+        <h3>Erasmus+ KA152 — Intercambios Juveniles</h3>
+        <div class="price">15 000–35 000 € por proyecto</div>
+        <p>Movilidad transnacional de jóvenes 13–30 años con socio en otro país. Cubre viajes, estancia, costes organizativos. Atenea puede presentar como entidad solicitante o como socio.</p>
+        <h4 class="minor">Plazos 2026</h4>
+        <ul>
+          <li>12 de febrero de 2026 — ronda 1 (cerrada)</li>
+          <li>1 de octubre de 2026 — ronda 2</li>
+          <li>Febrero de 2027 — ronda 1 año siguiente</li>
+        </ul>
+        <h4 class="minor">Tema sugerido</h4>
+        <p style="font-size:14px;">Altas capacidades, inteligencia artificial y participación democrática juvenil.</p>
+      </div>
+
+      <div class="card">
+        <div class="tag">Estatal · Por familia individual</div>
+        <h3>Beca NEAE — Ministerio de Educación</h3>
+        <div class="price">913 € + 400 € por niño AACC y año</div>
+        <p>Las familias solicitan directamente. Atenea factura nominativamente los talleres como <em class="aurea">programas específicos para alumnado de altas capacidades</em>. Con 40 familias activas, transferencia agregada potencial superior a 36 000 € hacia la asociación.</p>
+        <h4 class="minor">Plazo 2026-27</h4>
+        <p style="font-size:14px;">Del 19 de mayo al 10 de septiembre de 2026. Tramitación electrónica.</p>
+        <h4 class="minor">Acción requerida</h4>
+        <p style="font-size:14px;">Atenea emite certificación firmada por los talleres recibidos. Es el caballo de Troya financiero más importante de la asociación.</p>
+      </div>
+    </div>
+
+    <h3 class="sub" style="margin-top:48px;">Presupuesto agregado año uno</h3>
+    <div class="grid-4" style="margin-top: 24px;">
+      <div class="stat">
+        <div class="num">2 000<small> €</small></div>
+        <div class="label">XVI Concurso modalidad asociacionismo</div>
+      </div>
+      <div class="stat">
+        <div class="num">2 000<small> €</small></div>
+        <div class="label">XVI Concurso modalidad innovación</div>
+      </div>
+      <div class="stat">
+        <div class="num">6 300<small> €</small></div>
+        <div class="label">Cuerpo Europeo Solidaridad</div>
+      </div>
+      <div class="stat">
+        <div class="num">36 000<small> €</small></div>
+        <div class="label">Beca NEAE agregada (40 familias)</div>
+      </div>
+    </div>
+    <p style="margin-top:24px;" class="dim">Suma año uno: <strong>aproximadamente 46 000 €</strong> sin contar Erasmus+ ni patrocinios privados. La cifra es prudente: las cuatro fuentes son compatibles entre sí y no exigen cofinanciación cruzada problemática mientras no se solapen los mismos gastos.</p>
+  </div>
+</section>
+
+<!-- LIENZO RELLENABLE -->
+<section id="lienzo">
+  <div class="wrap-narrow">
+    <h2 class="section"><span class="num">09</span>Lienzo de trabajo</h2>
+    <p class="section-lede">Los campos siguientes son <strong>editables</strong>. Lo que escribas se guarda automáticamente en tu navegador. Puedes imprimir el documento completo con el botón flotante para llevarlo a la Asamblea de Atenea.</p>
+
+    <div class="form-block">
+      <h3 class="sub" style="margin-top:0;">Identidad de la sección juvenil</h3>
+
+      <div class="form-row">
+        <label>Nombre operativo</label>
+        <input type="text" data-key="nombre" placeholder="Áurea Joven (sugerido)" />
+      </div>
+      <div class="form-row">
+        <label>Coordinador juvenil</label>
+        <input type="text" data-key="coordinador" placeholder="Nombre del joven 14–30 elegido" />
+      </div>
+      <div class="form-row">
+        <label>Vía constitutiva</label>
+        <input type="text" data-key="via" placeholder="Sección juvenil interna · A" />
+      </div>
+      <div class="form-row">
+        <label>Fecha prevista de aprobación en Asamblea</label>
+        <input type="text" data-key="fecha_asamblea" placeholder="Junio 2026" />
+      </div>
+      <div class="form-row">
+        <label>Núcleo fundacional (jóvenes)</label>
+        <textarea data-key="nucleo" placeholder="Cinco a ocho nombres y edades de los adolescentes interesados"></textarea>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <h3 class="sub" style="margin-top:0;">Decisión sobre proyectos</h3>
+
+      <div class="form-row">
+        <label>Opción elegida para el año uno</label>
+        <input type="text" data-key="opcion" placeholder="B · Áurea Lab (recomendada)" />
+      </div>
+      <div class="form-row">
+        <label>Convocatorias a presentar</label>
+        <textarea data-key="convocatorias" placeholder="XVI Concurso modalidad innovación + ESC30 + Beca NEAE"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Socio europeo a contactar</label>
+        <input type="text" data-key="socio" placeholder="Italia, Portugal, Alemania o Francia" />
+      </div>
+      <div class="form-row">
+        <label>Experto IA propuesto</label>
+        <input type="text" data-key="experto" placeholder="Nombre, dedicación semanal, tarifa" />
+      </div>
+    </div>
+
+    <div class="form-block">
+      <h3 class="sub" style="margin-top:0;">Compromisos del trimestre uno</h3>
+
+      <div class="form-row">
+        <label>Tres acciones concretas</label>
+        <textarea data-key="acciones" placeholder="Lo que el equipo se compromete a hacer antes del primer corte trimestral"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Persona responsable de cada acción</label>
+        <textarea data-key="responsables" placeholder="Una persona por acción, con fecha"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Lo que renunciamos a hacer este trimestre</label>
+        <textarea data-key="renuncias" placeholder="Decir que no a algo es la decisión más estratégica"></textarea>
+      </div>
+    </div>
+
+    <p class="tiny">Todos los datos permanecen en tu dispositivo. Para una copia compartida con Pilar y Diego, usa el botón <strong>Imprimir</strong> y guarda como PDF.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="wrap-narrow">
+    <p>
+      <strong>Áurea Joven</strong> — Documento operativo para la creación de la sección juvenil de Atenea, Asociación de Altas Capacidades de Salamanca. Versión 1.0 — Mayo de 2026.
+    </p>
+    <p>
+      Construido sobre el Documento Maestro de Investigación Tripartita (mayo 2026) y validado contra las convocatorias oficiales 2026 del Ayuntamiento de Salamanca, la Junta de Castilla y León, el INJUVE (Erasmus+ y Cuerpo Europeo de Solidaridad) y el Ministerio de Educación (Beca NEAE).
+    </p>
+    <p style="margin-top: 24px; padding-top: 24px; border-top: 0.5px solid var(--line-soft);">
+      Atenea · Casa de las Asociaciones · C/ Gran Capitán 53-57 · 37006 Salamanca · NIF G37549540 · atenea.aacc@gmail.com · 621 320 222
+    </p>
+  </div>
+</footer>
+
+<!-- Botones flotantes -->
+<div class="actions">
+  <button class="primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+  <button onclick="if(confirm('¿Borrar todos los datos del lienzo?')){localStorage.removeItem('aurea_joven');location.reload();}">Reiniciar lienzo</button>
+</div>
+
+<div id="save-indicator">Guardado</div>
+
+<script>
+  // ============================================
+  // Persistencia local del lienzo + rúbrica
+  // ============================================
+  (function() {
+    const KEY = 'aurea_joven';
+    const data = JSON.parse(localStorage.getItem(KEY) || '{}');
+
+    function save() {
+      localStorage.setItem(KEY, JSON.stringify(data));
+      const ind = document.getElementById('save-indicator');
+      ind.classList.add('show');
+      clearTimeout(window._saveT);
+      window._saveT = setTimeout(() => ind.classList.remove('show'), 1200);
+    }
+
+    // Inputs del lienzo
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const k = el.dataset.key;
+      if (data[k] !== undefined) el.value = data[k];
+      el.addEventListener('input', () => {
+        data[k] = el.value;
+        save();
+      });
+    });
+
+    // Rúbrica interactiva
+    const scoreInputs = document.querySelectorAll('.score-input');
+    const scores = data.rubric || {};
+
+    scoreInputs.forEach(container => {
+      const dim = container.dataset.dim;
+      for (let i = 0; i <= 4; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.dataset.value = i;
+        if (scores[dim] === i) btn.classList.add('on');
+        btn.addEventListener('click', () => {
+          scores[dim] = i;
+          container.querySelectorAll('button').forEach(b => b.classList.toggle('on', parseInt(b.dataset.value) === i));
+          data.rubric = scores;
+          save();
+          updateTotal();
+        });
+        container.appendChild(btn);
+      }
+    });
+
+    function updateTotal() {
+      const total = Object.values(scores).reduce((a, b) => a + (parseInt(b) || 0), 0);
+      document.getElementById('rubric-total').textContent = total + ' / 24';
+    }
+    updateTotal();
+  })();
+
+  // ============================================
+  // Smooth scroll para la nav
+  // ============================================
+  document.querySelectorAll('nav.top a').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(id);
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 60,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
