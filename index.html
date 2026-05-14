@@ -4,13 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atenea Proyect-s</title>
-  <meta http-equiv="refresh" content="0; url=Atenea_Aurea_Joven_seccion_juvenil.html">
+  <style>
+    body { margin:0; min-height:100vh; background: linear-gradient(135deg, #0b1d2e, #07101a 55%, #0a1624); color:#eef4ff; font-family: Inter, system-ui, sans-serif; }
+    .page { max-width: 960px; margin: auto; padding: 36px 24px; }
+    .hero { display:flex; flex-wrap:wrap; gap:20px; align-items:center; justify-content:space-between; }
+    .hero h1 { margin:0; font-size:clamp(2.4rem, 4vw, 3.8rem); letter-spacing:-0.05em; }
+    .hero p { margin:0; max-width: 520px; color:#9bb4d3; }
+    .cards { display:grid; gap:18px; margin-top:32px; }
+    .card { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:24px; padding:26px; box-shadow: 0 24px 60px rgba(0,0,0,0.24); }
+    .card h2 { margin:0 0 12px; color:#fff; }
+    .links { display:grid; gap:12px; }
+    .links a { display:block; padding:16px 18px; border-radius:18px; background: rgba(255,255,255,0.1); color:#eef4ff; text-decoration:none; font-weight:600; border:1px solid rgba(255,255,255,0.15); }
+    .links a:hover { background: rgba(109,215,255,0.14); }
+    .note { margin-top:24px; color:#a7bdde; }
+    @media (max-width: 720px) { .hero { flex-direction:column; align-items:flex-start; } }
+  </style>
 </head>
-<body style="font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0;">
-  <div style="text-align: center; max-width: 520px; padding: 24px;">
-    <h1>Redirigiendo...</h1>
-    <p>Si no cargas automáticamente, haz clic en el enlace:</p>
-    <p><a href="Atenea_Aurea_Joven_seccion_juvenil.html">Abrir Atenea Joven</a></p>
+<body>
+  <div class="page">
+    <div class="hero">
+      <div>
+        <h1>Atenea Proyect-s</h1>
+        <p>Selecciona el área que quieres abrir: la sección juvenil, el proyecto Olivo, el visor de supervisión o la página editable de talleres.</p>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h2>Sección juvenil</h2>
+        <div class="links">
+          <a href="Atenea_Aurea_Joven_seccion_juvenil.html">Abrir Atenea Joven</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Proyecto Olivo</h2>
+        <div class="links">
+          <a href="Atenea_Proyecto_Olivo.html">Abrir Proyecto Olivo</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Panel de control</h2>
+        <div class="links">
+          <a href="visor_proyectos.html">Abrir Visor de Proyectos</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Talleres infantiles</h2>
+        <div class="links">
+          <a href="talleres_ninos.html">Abrir Talleres Niños</a>
+        </div>
+      </div>
+    </div>
+    <p class="note">Si la página no carga, recarga el navegador. Esta página actúa como centro de navegación para los proyectos y el panel de gestión.</p>
   </div>
 </body>
 </html>

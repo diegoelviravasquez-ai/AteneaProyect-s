@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visor de Proyectos — Atenea</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #08101a;
+    --panel: #0e1b29;
+    --panel-soft: #142533;
+    --glass: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --text: #f7f9fb;
+    --muted: #9bb4ce;
+    --accent: #6dd7ff;
+    --accent-2: #a4ff8b;
+    --warn: #ffbe5f;
+    --danger: #ff8c7a;
+    --shadow: 0 30px 80px rgba(0,0,0,0.35);
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; min-height:100%; background:#06111b; color:var(--text); }
+  body { line-height:1.5; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .page { max-width: 1320px; margin: 0 auto; padding: 24px; }
+  .topbar { display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:24px; }
+  .brand { font-size:1.25rem; letter-spacing:0.08em; text-transform:uppercase; color:#8be4ff; }
+  .brand span { color:#a4ff8b; }
+  .nav-links { display:flex; gap:12px; flex-wrap:wrap; }
+  .nav-links a { background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:10px 14px; border-radius:999px; font-size:0.95rem; }
+  .monitor { position:relative; overflow:hidden; border-radius:30px; background:radial-gradient(circle at top left, rgba(109,215,255,0.18), transparent 35%), radial-gradient(circle at bottom right, rgba(164,255,139,0.14), transparent 30%), linear-gradient(180deg, #10202f 0%, #08101a 100%); border:1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow); padding:28px; }
+  .monitor::before { content:''; position:absolute; inset:0; pointer-events:none; background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 30%, rgba(255,255,255,0.02) 100%); }
+  .monitor-header { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; position:relative; z-index:1; }
+  .monitor-title { display:flex; flex-direction:column; gap:6px; }
+  .monitor-title h1 { margin:0; font-size:clamp(2.1rem, 3vw, 3.2rem); letter-spacing:-0.05em; }
+  .monitor-title p { margin:0; color:var(--muted); max-width:620px; }
+  .status-pill { display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:999px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); font-size:0.95rem; }
+  .status-pill::before { width:10px; height:10px; border-radius:50%; background: var(--accent); content:''; display:inline-block; }
+  .grid { display:grid; gap:20px; }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .card { background: rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:24px; position:relative; overflow:hidden; }
+  .card::after { content:''; position:absolute; inset:0; background: radial-gradient(circle at top right, rgba(109,215,255,0.08), transparent 30%); pointer-events:none; }
+  .card h2, .card h3 { margin:0 0 14px; }
+  .card p, .card li, .card span { color: var(--muted); }
+  .chip { display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background: rgba(109,215,255,0.12); color: #dffaff; font-size:0.82rem; font-weight:600; }
+  .card small { color:var(--muted); }
+  .project-card { min-height: 260px; }
+  .project-card h3 { font-size:1.15rem; color:#f5fbff; }
+  .project-status { font-weight:700; margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; }
+  .project-pill { padding:8px 12px; border-radius:999px; background: rgba(164,255,139,0.14); border:1px solid rgba(164,255,139,0.18); color:#c5ffc9; font-size:0.84rem; }
+  .project-pill.red { background: rgba(255,140,122,0.12); border-color: rgba(255,140,122,0.2); color:#ffb29a; }
+  .mini-title { margin:0 0 12px; color:#e3f8ff; font-size:1rem; }
+  .list { list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+  .list li { padding:14px 16px; border-radius:18px; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); }
+  .list li strong { color:#fff; }
+  .form-row { display:grid; gap:10px; margin-bottom:14px; }
+  input, textarea, select { width:100%; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; color: var(--text); padding:14px 16px; font: inherit; }
+  textarea { min-height: 100px; resize: vertical; }
+  button { border:none; border-radius:16px; padding:14px 18px; font:600 0.96rem Inter, sans-serif; cursor:pointer; background: linear-gradient(135deg, #6dd7ff, #a4ff8b); color:#08101a; transition:transform 0.2s ease, filter 0.2s ease; }
+  button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+  .calendar { display:grid; gap:18px; }
+  .calendar-row { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+  .event { display:flex; justify-content:space-between; gap:12px; padding:14px 16px; border-radius:16px; background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); }
+  .event strong { color:#fff; }
+  .footer-note { margin-top:28px; color:var(--muted); font-size:0.92rem; }
+  @media (max-width: 980px) { .grid-3, .grid-4, .grid-2, .calendar-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar">
+    <div class="brand">Atenea Control <span>Monitor</span></div>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="Atenea_Aurea_Joven_seccion_juvenil.html">Atenea Joven</a>
+      <a href="Atenea_Proyecto_Olivo.html">Proyecto Olivo</a>
+      <a href="talleres_ninos.html">Talleres Niños</a>
+    </div>
+  </div>
+  <div class="monitor">
+    <div class="monitor-header">
+      <div class="monitor-title">
+        <h1>Visor de Proyectos</h1>
+        <p>Panel de supervisión para presidenta y vicepresidenta. Aquí se controlan el estado, el nivel de avance y las necesidades de los proyectos clave.</p>
+      </div>
+      <div class="status-pill">Sincronizado con calendario interno</div>
+    </div>
+    <div class="grid grid-4" style="margin-top:24px;">
+      <div class="card" style="background:rgba(255,255,255,0.05);">
+        <h2>Proyectos activos</h2>
+        <p>4 líneas prioritarias con fichas inteligentes, estado en tiempo real y prioridades de la Junta.</p>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.04);">
+        <h2>Última actualización</h2>
+        <p id="last-update">Cargando…</p>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.04);">
+        <h2>Supervisión</h2>
+        <p><strong>Presidencia</strong>: 8 proyectos activos</p>
+        <p><strong>Vicepresidencia</strong>: 3 alertas + 2 propuestas Caixa pendientes</p>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.04);">
+        <h2>Visión 3D</h2>
+        <p>Tormes + Diseño 3D listo para prototipo, con sala de trabajo y fases definidas.</p>
+      </div>
+    </div>
+
+    <section style="margin-top:32px;">
+      <h2 class="mini-title">Panel de proyectos</h2>
+      <div class="grid grid-2">
+        <div class="card project-card">
+          <h3>Atenea Joven</h3>
+          <div class="project-status"><span class="project-pill">En curso</span><span class="project-pill">Nivel 72%</span></div>
+          <p>Sección juvenil con mentorías, tutorización y recursos de innovación. Necesita confirmación de espacio y materiales didácticos.</p>
+          <ul class="list">
+            <li><strong>Necesita</strong>: Ratios de tutores y actividades trimestrales.</li>
+            <li><strong>Meta</strong>: 12 sesiones de formación antes de julio.</li>
+          </ul>
+        </div>
+        <div class="card project-card">
+          <h3>Proyecto Olivo</h3>
+          <div class="project-status"><span class="project-pill">Validación</span><span class="project-pill red">Riesgo leve</span></div>
+          <p>Plan estratégico para la sede y la gobernanza. Pendiente de aprobación de la memoria económica.</p>
+          <ul class="list">
+            <li><strong>Necesita</strong>: Informe de impacto social.</li>
+            <li><strong>Meta</strong>: decisión de financiación para septiembre.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:24px;" id="projects-section">
+      <div class="grid grid-2">
+        <div class="card project-card">
+          <h3>Tormes + Diseño 3D</h3>
+          <div class="project-status"><span class="project-pill">Prototipo</span><span class="project-pill">Fase 2</span></div>
+          <p>Diseño 3D + prototipado físico del modelo para la Escuela de Padres. Ideal para comunicación institucional.</p>
+          <ul class="list" id="tormes-needs"></ul>
+        </div>
+        <div class="card project-card">
+          <h3>Escuela de Padres</h3>
+          <div class="project-status"><span class="project-pill">Prep.</span><span class="project-pill">Agenda abierta</span></div>
+          <p>Programa de talleres y acompañamiento para familias. Debe ajustarse a calendario escolar y actividades comunitarias.</p>
+          <ul class="list" id="escuela-needs"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:24px;">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Propuesta Caixa</h2>
+          <p>Bloque de texto editable para completar la propuesta de Caixa. Guarda aquí el resumen ejecutivo, la inversión solicitada y la vinculación social.</p>
+          <textarea id="caixa-proposal" placeholder="Escribe aquí la propuesta Caixa..."></textarea>
+        </div>
+        <div class="card">
+          <h2>Talleres varios</h2>
+          <p>Define talleres sin nombre aún: cada línea puede ser renombrada por el equipo.</p>
+          <div class="list" id="workshop-list"></div>
+          <button id="add-workshop">Añadir taller</button>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:24px;">
+      <h2 class="mini-title">Agenda sincronizada</h2>
+      <div class="calendar">
+        <div class="calendar-row">
+          <div class="card">
+            <h3>Eventos próximos</h3>
+            <div id="event-list"></div>
+          </div>
+          <div class="card">
+            <h3>Añadir evento</h3>
+            <div class="form-row"><input type="text" id="event-title" placeholder="Título del evento" /></div>
+            <div class="form-row"><input type="date" id="event-date" /></div>
+            <div class="form-row"><textarea id="event-note" placeholder="Nota breve"></textarea></div>
+            <button id="save-event">Guardar evento</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">Los datos se sincronizan en el navegador. Usa la página de talleres para editar la programación infantil y ver cómo se actualiza aquí.</p>
+  </div>
+</div>
+<script>
+  const STORAGE = 'atenea_visor_proyectos';
+  const defaultState = {
+    lastUpdate: new Date().toLocaleString('es-ES', { dateStyle:'medium', timeStyle:'short' }),
+    tormesNeeds: ['Modelado 3D final', 'Revisión de materiales', 'Validar prototipo con la Junta'],
+    escuelaNeeds: ['Programa de familias', 'Horarios de sesiones padres', 'Material de difusión'],
+    caixaProposal: 'Resumen ejecutivo editable para la propuesta Caixa: objetivo social, presupuesto y resultado esperado.',
+    workshops: ['Taller 1 (sin nombre)', 'Taller 2 (sin nombre)', 'Taller 3 (sin nombre)'],
+    events: [
+      { title: 'Reunión de Junta', date: new Date().toISOString().slice(0,10), note: 'Revisar avance de proyectos y calendario.' },
+      { title: 'Taller prototipo 3D', date: new Date(Date.now()+86400000).toISOString().slice(0,10), note: 'Primera sesión de diseño con el equipo.' }
+    ]
+  };
+
+  function loadState() {
+    const saved = localStorage.getItem(STORAGE);
+    try { return saved ? JSON.parse(saved) : defaultState; }
+    catch(e) { return defaultState; }
+  }
+  function saveState(state) { localStorage.setItem(STORAGE, JSON.stringify(state)); }
+
+  const state = loadState();
+  document.getElementById('last-update').textContent = state.lastUpdate;
+  document.getElementById('caixa-proposal').value = state.caixaProposal;
+
+  function renderList(id, items) {
+    const container = document.getElementById(id);
+    container.innerHTML = items.map(item => `<li><strong>${item}</strong></li>`).join('');
+  }
+
+  function renderWorkshops() {
+    const list = document.getElementById('workshop-list');
+    list.innerHTML = state.workshops.map((item, index) => `
+      <li>
+        <div style="display:flex; justify-content:space-between; gap:12px; align-items:center;">
+          <span>${item}</span>
+          <button data-remove="${index}" style="background:rgba(255,255,255,0.08); color:var(--text); padding:6px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.1);">✕</button>
+        </div>
+      </li>
+    `).join('');
+    list.querySelectorAll('[data-remove]').forEach(btn => btn.addEventListener('click', () => {
+      state.workshops.splice(Number(btn.dataset.remove), 1);
+      saveState(state); renderWorkshops();
+    }));
+  }
+
+  function renderEvents() {
+    const events = state.events.slice().sort((a,b) => a.date.localeCompare(b.date));
+    const container = document.getElementById('event-list');
+    container.innerHTML = events.length ? events.map(ev => `
+      <div class="event">
+        <div>
+          <strong>${ev.title}</strong>
+          <div style="font-size:0.88rem; color:var(--muted);">${ev.date}</div>
+        </div>
+        <div style="text-align:right;"><small>${ev.note}</small></div>
+      </div>
+    `).join('') : '<p style="color:var(--muted);">Aún no hay eventos programados.</p>';
+  }
+
+  renderList('tormes-needs', state.tormesNeeds);
+  renderList('escuela-needs', state.escuelaNeeds);
+  renderWorkshops();
+  renderEvents();
+
+  document.getElementById('caixa-proposal').addEventListener('input', e => {
+    state.caixaProposal = e.target.value;
+    state.lastUpdate = new Date().toLocaleString('es-ES', { dateStyle:'medium', timeStyle:'short' });
+    document.getElementById('last-update').textContent = state.lastUpdate;
+    saveState(state);
+  });
+
+  document.getElementById('add-workshop').addEventListener('click', () => {
+    const name = prompt('Nombre del nuevo taller (puede dejarse genérico):', `Taller ${state.workshops.length + 1}`);
+    if (!name) return;
+    state.workshops.push(name);
+    state.lastUpdate = new Date().toLocaleString('es-ES', { dateStyle:'medium', timeStyle:'short' });
+    document.getElementById('last-update').textContent = state.lastUpdate;
+    saveState(state);
+    renderWorkshops();
+  });
+
+  document.getElementById('save-event').addEventListener('click', () => {
+    const title = document.getElementById('event-title').value.trim();
+    const date = document.getElementById('event-date').value;
+    const note = document.getElementById('event-note').value.trim();
+    if (!title || !date) {
+      alert('Añade un título y una fecha para el evento.');
+      return;
+    }
+    state.events.push({ title, date, note });
+    state.lastUpdate = new Date().toLocaleString('es-ES', { dateStyle:'medium', timeStyle:'short' });
+    document.getElementById('last-update').textContent = state.lastUpdate;
+    saveState(state);
+    renderEvents();
+    document.getElementById('event-title').value = '';
+    document.getElementById('event-date').value = '';
+    document.getElementById('event-note').value = '';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talleres Niños — Atenea</title>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --surface: #ffffff;
+    --border: #d6e4f2;
+    --text: #11253d;
+    --muted: #5f7a96;
+    --accent: #1e80ff;
+    --accent-2: #10c7a1;
+    --shadow: 0 28px 70px rgba(16, 45, 79, 0.12);
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; background: linear-gradient(180deg, #e7eff9 0%, #f7fbff 50%, #f9fcff 100%); color: var(--text); }
+  a { color: var(--accent); text-decoration:none; }
+  .page { max-width: 1200px; margin: auto; padding: 28px; }
+  .topbar { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center; margin-bottom:24px; }
+  .brand { font-size:1.2rem; font-weight:700; letter-spacing:0.08em; }
+  .nav-links { display:flex; gap:12px; flex-wrap:wrap; }
+  .nav-links a { background:#fff; border:1px solid var(--border); border-radius:999px; padding:10px 14px; font-size:0.95rem; }
+  .hero { display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start; margin-bottom:24px; }
+  .hero-text { max-width:640px; }
+  .hero-text h1 { margin:0 0 12px; font-size:clamp(2.2rem, 4vw, 3rem); }
+  .hero-text p { margin:0; color:var(--muted); }
+  .card { background: var(--surface); border:1px solid var(--border); border-radius:28px; box-shadow: var(--shadow); padding:24px; }
+  .grid { display:grid; gap:20px; }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card h2, .card h3 { margin:0 0 14px; }
+  .list { list-style:none; padding:0; margin:0; display:grid; gap:12px; }
+  .list li { background:#f4f8ff; border:1px solid #dbeafe; border-radius:18px; padding:16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+  .list li strong { color: #102a43; }
+  .form-row { display:grid; gap:12px; margin-bottom:18px; }
+  input, textarea, select { width:100%; border:1px solid var(--border); border-radius:18px; padding:16px; background:#fff; color:var(--text); font:inherit; }
+  textarea { min-height:120px; resize: vertical; }
+  button { border:none; border-radius:18px; padding:14px 18px; background: linear-gradient(135deg, var(--accent), #64b8ff); color:#fff; font:600 0.96rem Inter, sans-serif; cursor:pointer; transition:transform 0.2s ease; }
+  button:hover { transform: translateY(-1px); }
+  .small { font-size:0.92rem; color:var(--muted); }
+  .divider { height:1px; background: var(--border); margin:24px 0; }
+  @media (max-width: 920px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar">
+    <div class="brand">Talleres Niños</div>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="visor_proyectos.html">Visor Proyectos</a>
+      <a href="Atenea_Aurea_Joven_seccion_juvenil.html">Atenea Joven</a>
+    </div>
+  </div>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Agenda editable de talleres infantiles</h1>
+      <p>Una página conectada al panel de supervisión para que el equipo pueda crear talleres sin nombre, guardarlos en un calendario y mostrar el estado actual.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h2>Lista de talleres</h2>
+      <ul class="list" id="workshops">
+      </ul>
+      <button id="new-workshop">Añadir taller nuevo</button>
+    </div>
+    <div class="card">
+      <h2>Datos del taller</h2>
+      <div class="form-row">
+        <label>Nombre del taller</label>
+        <input type="text" id="workshop-name" placeholder="Ej. Robótica junior" />
+      </div>
+      <div class="form-row">
+        <label>Descripción</label>
+        <textarea id="workshop-desc" placeholder="Describe el taller aquí..."></textarea>
+      </div>
+      <div class="form-row">
+        <label>Fecha</label>
+        <input type="date" id="workshop-date" />
+      </div>
+      <button id="save-workshop">Guardar taller</button>
+      <p class="small">Los cambios se guardan en el navegador y se sincronizan con el visor general.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>Estado de supervisión</h3>
+      <p class="small">Demuestra al equipo qué talleres ya están creados y pendientes. La presidenta y la vicepresidenta pueden verlos desde el visor.</p>
+      <p><strong>Total de talleres:</strong> <span id="workshop-count">0</span></p>
+    </div>
+    <div class="card">
+      <h3>Calendario sincronizado</h3>
+      <p class="small">Selecciona una fecha para conectarla al calendario compartido con el panel de proyecto.</p>
+      <p><strong>Próximo taller:</strong> <span id="next-workshop">Sin eventos</span></p>
+    </div>
+    <div class="card">
+      <h3>Conexión</h3>
+      <p class="small">Esta página comparte los mismos datos de eventos y talleres con el visor general.</p>
+    </div>
+  </div>
+</div>
+<script>
+  const KEY = 'atenea_visor_proyectos';
+  const defaultState = { workshops: [], events: [] };
+
+  function loadState() {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return defaultState;
+    try { return JSON.parse(raw); } catch { return defaultState; }
+  }
+  function saveState(state) { localStorage.setItem(KEY, JSON.stringify(state)); }
+
+  const state = loadState();
+  const list = document.getElementById('workshops');
+  const count = document.getElementById('workshop-count');
+  const next = document.getElementById('next-workshop');
+  const name = document.getElementById('workshop-name');
+  const desc = document.getElementById('workshop-desc');
+  const date = document.getElementById('workshop-date');
+  let selectedIndex = null;
+
+  function renderWorkshops() {
+    list.innerHTML = state.workshops.map((item, index) => `
+      <li>
+        <div>
+          <strong>${item.name}</strong>
+          <div style="color:var(--muted); font-size:0.95rem;">${item.date || 'Fecha pendiente'}</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button data-edit="${index}" style="background:#1e80ff;color:#fff;padding:8px 10px;border-radius:12px;">Editar</button>
+          <button data-delete="${index}" style="background:#ff6b6b;color:#fff;padding:8px 10px;border-radius:12px;">Borrar</button>
+        </div>
+      </li>
+    `).join('');
+    count.textContent = state.workshops.length;
+    const upcoming = state.workshops.filter(w => w.date).sort((a,b) => a.date.localeCompare(b.date))[0];
+    next.textContent = upcoming ? `${upcoming.name} (${upcoming.date})` : 'Sin eventos';
+    list.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => {
+      selectedIndex = Number(btn.dataset.edit);
+      const item = state.workshops[selectedIndex];
+      name.value = item.name;
+      desc.value = item.desc;
+      date.value = item.date || '';
+    }));
+    list.querySelectorAll('[data-delete]').forEach(btn => btn.addEventListener('click', () => {
+      state.workshops.splice(Number(btn.dataset.delete), 1);
+      saveState(state); renderWorkshops();
+    }));
+  }
+
+  document.getElementById('new-workshop').addEventListener('click', () => {
+    selectedIndex = null;
+    name.value = '';
+    desc.value = '';
+    date.value = '';
+  });
+
+  document.getElementById('save-workshop').addEventListener('click', () => {
+    const item = { name: name.value.trim() || 'Taller sin nombre', desc: desc.value.trim(), date: date.value };
+    if (selectedIndex === null) state.workshops.push(item);
+    else state.workshops[selectedIndex] = item;
+    saveState(state);
+    renderWorkshops();
+    name.value = '';
+    desc.value = '';
+    date.value = '';
+    selectedIndex = null;
+  });
+
+  renderWorkshops();
+</script>
+</body>
+</html>
